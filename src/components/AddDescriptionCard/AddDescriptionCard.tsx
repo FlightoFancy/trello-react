@@ -1,5 +1,5 @@
-import { Dispatch, SetStateAction, useState } from "react"
-import { ICard } from "../types/data"
+import { Dispatch, SetStateAction, useState } from "react";
+import { ICard } from "types";
 
 interface AddDescriptionCardProps {
     addDesc: (description: string) => void
@@ -10,7 +10,7 @@ interface AddDescriptionCardProps {
     cardDetail: ICard | undefined
 }
 
-const AddDescriptionCard: React.FC<AddDescriptionCardProps> = ({ addDesc, activeDesc, edit, cardDetail }) => {
+export const AddDescriptionCard: React.FC<AddDescriptionCardProps> = ({ addDesc, activeDesc, edit, cardDetail }) => {
     const [value, setValue] = useState("")
     const [active, setActive] = useState(false)
 
@@ -22,7 +22,7 @@ const AddDescriptionCard: React.FC<AddDescriptionCardProps> = ({ addDesc, active
     }
 
     return <>
-        {cardDetail?.description == undefined ? <>
+        {cardDetail?.description === undefined ? <>
             {activeDesc &&
                 <> <textarea onClick={openText} value={value} onChange={e => setValue(e.target.value)} placeholder="Добавить более подробное описание..." rows={3}></textarea>
                     {active &&
@@ -37,4 +37,3 @@ const AddDescriptionCard: React.FC<AddDescriptionCardProps> = ({ addDesc, active
     </>
 }
 
-export { AddDescriptionCard }

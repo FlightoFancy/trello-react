@@ -1,41 +1,35 @@
 import { useState } from "react";
-import { ICard } from "../../types/data"
+import { ICard } from "types";
 import { getLocalStorageArrCards } from "../../utilities/localStorageUtility";
-import { AddCard } from "../AddCard"
-import { AddDescriptionCard } from "../AddDescriptionCard";
-import { CardList } from "../CardList"
-import { CardModal } from "../CardModal";
+import { AddCard, AddDescriptionCard, CardList, CardModal } from "components";
 
 interface ColumnProps {
-    localStorageValue: string
+    localStorageValue: string;
 }
 
-const Column: React.FC<ColumnProps> = ({ localStorageValue }) => {
+export const Column: React.FC<ColumnProps> = ({ localStorageValue }) => {
 
     const [cards, setCards] = useState<ICard[]>(getLocalStorageArrCards(localStorageValue));
 
-    const [modalActive, setModalActive] = useState(false);
+    const [isModalActive, setIsModalActive] = useState(false);
 
-    const [activeDesc, setActiveDesc] = useState(true)
+    const [isActiveDesc, setIsActiveDesc] = useState(true);
 
-    const [edit,setEdit] = useState(false)
+    const [edit, setEdit] = useState(false);
 
     const [cardDetail, setCardDetail] = useState<ICard>();
 
     const openModalCard = (detail: ICard) => {
         setCardDetail(detail)
-        setModalActive(true)
+        setIsModalActive(true)
     }
     const createCard = (newCard: ICard) => {
         setCards([...cards, newCard])
-        localStorage.setItem(localStorageValue, JSON.stringify([...cards, newCard]));
     }
     const removeCard = (id: number | undefined) => {
         setCards(cards.filter(card => card.id !== id))
-        localStorage.setItem(localStorageValue, JSON.stringify(cards.filter(card => card.id !== id)))
-        setModalActive(false)
+        setIsModalActive(false)
     }
-
     const addDesc = (description: string) => {
         if (description !== '') {
             setCards(cards.map(card => {
@@ -45,25 +39,16 @@ const Column: React.FC<ColumnProps> = ({ localStorageValue }) => {
                     description: description
                 }
             }))
-            localStorage.setItem(localStorageValue, JSON.stringify(cards.map(card => {
-                if (card.id !== cardDetail?.id) return card
-                return {
-                    ...card,
-                    description: description
-                }
-            })))
-            setActiveDesc(false)
+            setIsActiveDesc(false)
             setEdit(true)
         }
     }
 
     return <>
-        <CardModal removeCard={removeCard} active={modalActive} setActive={setModalActive} cardDetail={cardDetail}>
-            <AddDescriptionCard cardDetail={cardDetail} edit={edit} setEdit={setEdit} addDesc={addDesc} activeDesc={activeDesc} setActiveDesc={setActiveDesc} />
+        <CardModal removeCard={removeCard} active={isModalActive} setActive={setIsModalActive} cardDetail={cardDetail}>
+            <AddDescriptionCard cardDetail={cardDetail} edit={edit} setEdit={setEdit} addDesc={addDesc} activeDesc={isActiveDesc} setActiveDesc={setIsActiveDesc} />
         </CardModal>
         <CardList items={cards} openModalCard={openModalCard} />
         <AddCard create={createCard} />
     </>
 }
-
-export { Column }

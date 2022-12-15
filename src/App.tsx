@@ -1,5 +1,15 @@
-import Board from "./components/Board";
+import { Board } from "components";
 import styled from "styled-components";
+
+function App() {
+  return (
+    <Container>
+      <Board />
+    </Container>
+  );
+}
+
+export default App;
 
 const Container = styled.div`
 display: flex;
@@ -10,14 +20,3 @@ max-width: 100%;
 min-height: 100vh;
 padding: 2em;
 `;
-
-
-function App() {
-  return (
-    <Container>
-   <Board/>
-    </Container>
-  );
-}
-
-export default App;
