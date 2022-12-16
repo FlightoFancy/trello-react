@@ -8,6 +8,7 @@ interface TitleProps {
 }
 
 export const Title: React.FC<TitleProps> = ({ name, titleValue }) => {
+
     const [isEdit, setIsEdit] = useState(false);
     const [value, setValue] = useState(titleValue);
 

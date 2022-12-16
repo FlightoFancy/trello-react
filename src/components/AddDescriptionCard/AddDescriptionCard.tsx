@@ -7,7 +7,7 @@ interface AddDescriptionCardProps {
     activeDesc: boolean
     setEdit: Dispatch<SetStateAction<boolean>>
     edit: boolean
-    cardDetail: ICard | undefined
+    cardDetail?: ICard
 }
 
 export const AddDescriptionCard: React.FC<AddDescriptionCardProps> = ({ addDesc, activeDesc, edit, cardDetail }) => {

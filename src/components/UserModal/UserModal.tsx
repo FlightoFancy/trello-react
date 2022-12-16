@@ -1,16 +1,19 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { IUser } from "types";
 
-export const UserModal: React.FC = () => {
+interface Props {
+    showName: (name: string) => void;
+}
+
+export const UserModal: React.FC<Props> = ({ showName }) => {
+
     const [isModalUserOpen, setIsModalUserOpen] = useState(true);
-    const [name, setName] = useState("");
-    const [, setFullname] = useState<IUser>();
+    const [userName, setUserName] = useState("");
 
     const saveName = () => {
-        if (name) {
-            setFullname({ fullName: name })
-            setIsModalUserOpen(false)
+        if (userName) {
+            showName(userName);
+            setIsModalUserOpen(false);
         }
     }
 
@@ -19,7 +22,7 @@ export const UserModal: React.FC = () => {
             <StyledOverlay />
             <ModalContent>
                 <label>Ваше имя: </label>
-                <input type="text" value={name} onChange={e => setName(e.target.value)} />
+                <input type="text" value={userName} onChange={e => setUserName(e.target.value)} />
                 <br />
                 <button onClick={saveName}>Сохранить</button>
             </ModalContent>

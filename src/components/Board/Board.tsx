@@ -1,24 +1,26 @@
 import styled from "styled-components";
-import { Column, Title, UserModal } from "components";
+import { Column, Title } from "components";
 
 export const Board: React.FC = () => {
     return (
         <BoardContainer>
-            <UserModal />
             <BoardItem>
                 <Title titleValue="Todo" name="one" />
-                <Column localStorageValue="cards1" />
+                <Column />
             </BoardItem>
-            <BoardItem><Title titleValue="In progress" name="two" />
-                <Column localStorageValue="cards2" />
+            <BoardItem>
+                <Title titleValue="In progress" name="two" />
+                <Column />
             </BoardItem>
-            <BoardItem><Title titleValue="Testing" name="three" />
-                <Column localStorageValue="cards3" />
+            <BoardItem>
+                <Title titleValue="Testing" name="three" />
+                <Column />
             </BoardItem>
-            <BoardItem><Title titleValue="Done" name="four" />
-                <Column localStorageValue="cards4" /></BoardItem>
-        </BoardContainer>
-    )
+            <BoardItem>
+                <Title titleValue="Done" name="four" />
+                <Column />
+            </BoardItem>
+        </BoardContainer>)
 }
 
 const BoardContainer = styled.div`

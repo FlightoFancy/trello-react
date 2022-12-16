@@ -7,3 +7,4 @@ export { CardItem } from "./CardItem";
 export { CardModal } from "./CardModal";
 export { Board } from "./Board";
 export { Title } from "./titleColumn";
+export { Header } from './Header';
