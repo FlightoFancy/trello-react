@@ -1,39 +1,64 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import { ICard } from "types";
 
-interface AddDescriptionCardProps {
-    addDesc: (description: string) => void
-    setActiveDesc: Dispatch<SetStateAction<boolean>>
-    activeDesc: boolean
-    setEdit: Dispatch<SetStateAction<boolean>>
-    edit: boolean
-    cardDetail?: ICard
+interface Props {
+  addDesc: (description: string) => void;
+  cardDetail?: ICard;
 }
 
-export const AddDescriptionCard: React.FC<AddDescriptionCardProps> = ({ addDesc, activeDesc, edit, cardDetail }) => {
-    const [value, setValue] = useState("")
-    const [active, setActive] = useState(false)
+export const AddDescriptionCard: React.FC<Props> = ({
+  addDesc,
+  cardDetail,
+}) => {
+  const [cardDesc, setCardDesc] = useState("");
+  const [isActiveButtons, setIsActiveButtons] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const [isShowButton, setIsShowButton] = useState(true);
 
-    const openText = () => {
-        setActive(true)
-    }
-    const cancel = () => {
-        setActive(false)
-    }
+  const showButtons = () => {
+    setIsActiveButtons(true);
+  };
+  const cancelEditText = () => {
+    setIsActiveButtons(false);
+  };
+  const showForm = () => {
+    setIsEdit(true);
+    setIsShowButton(false);
+  };
+  const saveDescCard = () => {
+    addDesc(cardDesc);
+    setIsEdit(false);
+  };
 
-    return <>
-        {cardDetail?.description === undefined ? <>
-            {activeDesc &&
-                <> <textarea onClick={openText} value={value} onChange={e => setValue(e.target.value)} placeholder="Добавить более подробное описание..." rows={3}></textarea>
-                    {active &&
-                        <><button onClick={() => addDesc(value)}>Сохранить</button>
-                            <button onClick={cancel}>Отменить</button></>
-                    }
-                </>
-            }
-        </> : <div>{cardDetail?.description}</div>}
-
-        {edit && <div>{value}</div>}
+  return (
+    <>
+      {cardDetail?.description ? (
+        <div>
+          <p>{cardDetail?.description}</p>
+          {isShowButton && <button onClick={showForm}>Редактировать</button>}
+        </div>
+      ) : (
+        <>{isShowButton && <button onClick={showForm}>Добавить</button>}</>
+      )}
+      <>
+        {isEdit && (
+          <>
+            <textarea
+              onClick={showButtons}
+              value={cardDesc}
+              onChange={(e) => setCardDesc(e.target.value)}
+              placeholder="Добавить более подробное описание..."
+              rows={3}
+            ></textarea>
+            {isActiveButtons && (
+              <>
+                <button onClick={saveDescCard}>Сохранить</button>
+                <button onClick={cancelEditText}>Отменить</button>
+              </>
+            )}
+          </>
+        )}
+      </>
     </>
-}
-
+  );
+};
