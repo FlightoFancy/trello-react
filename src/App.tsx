@@ -1,5 +1,6 @@
-import { Board, Header, UserModal } from "components";
 import { useState } from "react";
+
+import { Board, Header, UserModal } from "components";
 import styled from "styled-components";
 
 function App() {

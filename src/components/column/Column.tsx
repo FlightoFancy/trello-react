@@ -1,49 +1,21 @@
-import { useState } from "react";
 import { ICard } from "types";
-import { AddCard, AddDescriptionCard, CardList, CardModal } from "components";
+import { AddCard, CardList } from "components";
 
-export const Column: React.FC = () => {
-  const [cards, setCards] = useState<ICard[]>([]);
-  const [isModalActive, setIsModalActive] = useState(false);
-  const [cardDetail, setCardDetail] = useState<ICard>();
+interface Props {
+  items: ICard[];
+  openModalCard: (id: number) => void;
+  createCard: (card: ICard) => void;
+}
 
-  const openModalCard = (detail: ICard) => {
-    setCardDetail(detail);
-    setIsModalActive(true);
-  };
-  const createCard = (newCard: ICard) => {
-    setCards([...cards, newCard]);
-  };
-  const removeCard = (id: number | undefined) => {
-    setCards(cards.filter((card) => card.id !== id));
-    setIsModalActive(false);
-  };
-  const addDesc = (description: string) => {
-    if (description !== "") {
-      setCards(
-        cards.map((card) => {
-          if (card.id !== cardDetail?.id) return card;
-          return {
-            ...card,
-            description: description,
-          };
-        })
-      );
-    }
-  };
-
+export const Column: React.FC<Props> = ({
+  openModalCard,
+  createCard,
+  items,
+}) => {
   return (
     <>
-      <CardModal
-        removeCard={removeCard}
-        active={isModalActive}
-        setActive={setIsModalActive}
-        cardDetail={cardDetail}
-      >
-        <AddDescriptionCard cardDetail={cardDetail} addDesc={addDesc} />
-      </CardModal>
-      <CardList items={cards} openModalCard={openModalCard} />
-      <AddCard create={createCard} />
+      <CardList items={items} openModalCard={openModalCard} />
+      <AddCard createCard={createCard} />
     </>
   );
 };

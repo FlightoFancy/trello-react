@@ -1,11 +1,11 @@
 import styled from "styled-components";
 
-interface TitleProps {
+interface Props {
   title: string;
   onClick: () => void;
 }
 
-export const ColumnTitle: React.FC<TitleProps> = ({ title, onClick }) => {
+export const ColumnTitle: React.FC<Props> = ({ title, onClick }) => {
   return <Root onClick={onClick}>{title}</Root>;
 };
 

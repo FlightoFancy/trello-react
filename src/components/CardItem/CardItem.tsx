@@ -1,21 +1,12 @@
 import styled from "styled-components";
 import { ICard } from "types";
 
-interface CardItemProps extends ICard {
-  openModalCard: (detail: ICard) => void;
+interface Props extends ICard {
+  openModalCard: (id: number) => void;
 }
 
-export const CardItem: React.FC<CardItemProps> = ({
-  id,
-  title,
-  description,
-  openModalCard,
-}) => {
-  return (
-    <Root onClick={() => openModalCard({ id, title, description })}>
-      {title}
-    </Root>
-  );
+export const CardItem: React.FC<Props> = ({ id, title, openModalCard }) => {
+  return <Root onClick={() => openModalCard(id)}>{title}</Root>;
 };
 
 const Root = styled.div`

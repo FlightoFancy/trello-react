@@ -1,30 +1,87 @@
+import { useState } from "react";
+
+import { ICard } from "types";
 import styled from "styled-components";
-import { Column, Title } from "components";
+import { CardModal, Column, Title } from "components";
 
 export const Board: React.FC = () => {
+  const [cards, setCards] = useState<ICard[]>([]);
+  const [isModalActive, setIsModalActive] = useState(false);
+  const [cardId, setCardId] = useState(0);
+
+  const activeCardModal = (isActive: boolean) => {
+    setIsModalActive(isActive);
+  };
+
+  const openModalCard = (id: number) => {
+    setCardId(id);
+    setIsModalActive(true);
+  };
+
+  const createCard = (newCard: ICard) => {
+    setCards([...cards, newCard]);
+  };
+
+  const removeCard = (id: number) => {
+    setCards(cards.filter((card) => card.id !== id));
+    setIsModalActive(false);
+  };
+
+  const addDesc = (description: string) => {
+    if (description) {
+      setCards(
+        cards.map((card) => {
+          if (card.id === cardId) {
+            return {
+              ...card,
+              description: description,
+            };
+          }
+          return card;
+        })
+      );
+    }
+  };
+
+  const findCard = (id: number) => {
+    let card = cards.find((card) => card.id === id);
+    if (card) {
+      return card;
+    }
+  };
+
   return (
-    <BoardContainer>
+    <Container>
+      <CardModal
+        removeCard={removeCard}
+        active={isModalActive}
+        setActive={activeCardModal}
+        cardId={cardId}
+        findCard={findCard}
+        addDesc={addDesc}
+      />
       <BoardItem>
         <Title titleValue="Todo" name="one" />
-        <Column />
+        <Column
+          items={cards}
+          openModalCard={openModalCard}
+          createCard={createCard}
+        />
       </BoardItem>
       <BoardItem>
         <Title titleValue="In progress" name="two" />
-        <Column />
       </BoardItem>
       <BoardItem>
         <Title titleValue="Testing" name="three" />
-        <Column />
       </BoardItem>
       <BoardItem>
         <Title titleValue="Done" name="four" />
-        <Column />
       </BoardItem>
-    </BoardContainer>
+    </Container>
   );
 };
 
-const BoardContainer = styled.div`
+const Container = styled.div`
   display: flex;
   width: 100%;
   justify-content: space-around;

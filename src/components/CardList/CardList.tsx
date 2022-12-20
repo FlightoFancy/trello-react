@@ -1,11 +1,11 @@
 import { ICard } from "types";
 import { CardItem } from "components";
 
-interface CardListProps {
+interface Props {
   items: ICard[];
-  openModalCard: (detail: ICard) => void;
+  openModalCard: (id: number) => void;
 }
-export const CardList: React.FC<CardListProps> = ({ items, openModalCard }) => {
+export const CardList: React.FC<Props> = ({ items, openModalCard }) => {
   return (
     <>
       {items.map((card) => (

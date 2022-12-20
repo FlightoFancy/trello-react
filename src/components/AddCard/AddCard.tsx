@@ -3,11 +3,11 @@ import { useState } from "react";
 import styled from "styled-components";
 import { ICard } from "types";
 
-interface AddCardProps {
-  create: (card: ICard) => void;
+interface Props {
+  createCard: (card: ICard) => void;
 }
 
-export const AddCard: React.FC<AddCardProps> = ({ create }) => {
+export const AddCard: React.FC<Props> = ({ createCard }) => {
   const [isAddCardFormVisible, setIsAddCardFormVisible] = useState(false);
   const [newCardTitle, setNewCardTitle] = useState("");
 
@@ -23,7 +23,7 @@ export const AddCard: React.FC<AddCardProps> = ({ create }) => {
         id: Date.now(),
         title: newCardTitle,
       };
-      create(newCard);
+      createCard(newCard);
       setIsAddCardFormVisible(false);
     }
     setNewCardTitle("");
@@ -32,7 +32,7 @@ export const AddCard: React.FC<AddCardProps> = ({ create }) => {
   return (
     <>
       {isAddCardFormVisible ? (
-        <ContainerDiv>
+        <Container>
           <Textarea
             value={newCardTitle}
             placeholder="Введите заголовок карточки"
@@ -42,7 +42,7 @@ export const AddCard: React.FC<AddCardProps> = ({ create }) => {
           ></Textarea>
           <Button onClick={addCard}>Добавить карточку</Button>
           <ButtonClose onClick={closeForm}>&#10006;</ButtonClose>
-        </ContainerDiv>
+        </Container>
       ) : (
         <StyledButtonAddCard onClick={openForm}>
           + Добавить карточку
@@ -52,7 +52,7 @@ export const AddCard: React.FC<AddCardProps> = ({ create }) => {
   );
 };
 
-const ContainerDiv = styled.div`
+const Container = styled.div`
   width: 90%;
   margin: 5px auto;
 `;

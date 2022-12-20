@@ -1,21 +1,25 @@
-import { Dispatch, SetStateAction, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
+
+import { CardInfo } from "components";
 import styled from "styled-components";
 import { ICard } from "types";
 
-interface CardModalProps {
+interface Props {
   active: boolean;
-  setActive: Dispatch<SetStateAction<boolean>>;
-  cardDetail?: ICard;
-  removeCard: (id: number | undefined) => void;
-  children: React.ReactNode;
+  setActive: (isActive: boolean) => void;
+  cardId: number;
+  removeCard: (id: number) => void;
+  findCard: (id: number) => ICard | undefined;
+  addDesc: (description: string) => void;
 }
 
-export const CardModal: React.FC<CardModalProps> = ({
-  cardDetail,
+export const CardModal: React.FC<Props> = ({
+  cardId,
   active,
   setActive,
   removeCard,
-  children,
+  findCard,
+  addDesc,
 }) => {
   const divRef = useRef<HTMLDivElement>(null);
 
@@ -24,6 +28,7 @@ export const CardModal: React.FC<CardModalProps> = ({
       setActive(false);
     }
   };
+
   const closeModal = () => {
     setActive(false);
   };
@@ -40,16 +45,11 @@ export const CardModal: React.FC<CardModalProps> = ({
         <Modal ref={divRef} tabIndex={0} onKeyDown={handleKeyDown}>
           <StyledOverlay />
           <ModalContent>
-            <span>ID: {cardDetail?.id}</span>
-            <span>Название: {cardDetail?.title}</span>
-            <span>Описание:</span>
-            {children}
+            <CardInfo addDesc={addDesc} cardId={cardId} findCard={findCard} />
             <br />
-            <button onClick={closeModal}>Закрыть</button>
+            <ButtonClose onClick={closeModal}>&#10006;</ButtonClose>
             <br />
-            <button onClick={() => removeCard(cardDetail?.id)}>
-              Удалить карточку
-            </button>
+            <button onClick={() => removeCard(cardId)}>Удалить карточку</button>
           </ModalContent>
         </Modal>
       )}
@@ -85,4 +85,14 @@ const ModalContent = styled.div`
 `;
 const StyledOverlay = styled(Modal)`
   background: rgba(49, 49, 49, 0.8);
+`;
+const ButtonClose = styled.button`
+  padding: 0 5px;
+  margin: 5px;
+  border: none;
+  cursor: pointer;
+  font-size: 19px;
+  position: absolute;
+  right: 0;
+  top: 0;
 `;

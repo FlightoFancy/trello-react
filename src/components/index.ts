@@ -1,6 +1,6 @@
 export { Column } from "./Column";
 export { AddCard } from "./AddCard";
-export { AddDescriptionCard } from "./AddDescriptionCard";
+export { CardInfo } from "./CardInfo";
 export { UserModal } from "./UserModal";
 export { CardList } from "./CardList";
 export { CardItem } from "./CardItem";

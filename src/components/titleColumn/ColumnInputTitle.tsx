@@ -1,4 +1,4 @@
-interface ColumnInputTitleProps {
+interface Props {
   value: string;
   onChange: React.ChangeEventHandler<HTMLInputElement>;
   onBlur: React.FocusEventHandler<HTMLInputElement>;
@@ -6,7 +6,7 @@ interface ColumnInputTitleProps {
   name: string;
 }
 
-export const ColumnInputTitle: React.FC<ColumnInputTitleProps> = ({
+export const ColumnInputTitle: React.FC<Props> = ({
   value,
   onChange,
   onBlur,
