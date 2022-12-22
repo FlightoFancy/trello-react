@@ -3,7 +3,7 @@ import { CardItem } from "components";
 
 interface Props {
   items: ICard[];
-  openModalCard: (id: number) => void;
+  openModalCard: (id: string) => void;
 }
 export const CardList: React.FC<Props> = ({ items, openModalCard }) => {
   return (

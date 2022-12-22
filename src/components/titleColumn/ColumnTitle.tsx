@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { COLORS } from "styles";
 
 interface Props {
   title: string;
@@ -10,7 +11,7 @@ export const ColumnTitle: React.FC<Props> = ({ title, onClick }) => {
 };
 
 const Root = styled.h3`
-  color: #ffffff;
+  color: ${COLORS.white};
   text-align: center;
   margin-bottom: 0.7em;
 `;

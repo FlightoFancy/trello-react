@@ -3,13 +3,15 @@ import { useEffect, useRef } from "react";
 import { CardInfo } from "components";
 import styled from "styled-components";
 import { ICard } from "types";
+import { Button } from "ui";
+import { COLORS } from "styles";
 
 interface Props {
   active: boolean;
   setActive: (isActive: boolean) => void;
-  cardId: number;
-  removeCard: (id: number) => void;
-  findCard: (id: number) => ICard | undefined;
+  cardId: string;
+  removeCard: (id: string) => void;
+  findCard: (id: string) => ICard | undefined;
   addDesc: (description: string) => void;
 }
 
@@ -46,10 +48,11 @@ export const CardModal: React.FC<Props> = ({
           <StyledOverlay />
           <ModalContent>
             <CardInfo addDesc={addDesc} cardId={cardId} findCard={findCard} />
+            <Button variant="cross" onClick={closeModal}>
+              &#10006;
+            </Button>
             <br />
-            <ButtonClose onClick={closeModal}>&#10006;</ButtonClose>
-            <br />
-            <button onClick={() => removeCard(cardId)}>Удалить карточку</button>
+            <Button onClick={() => removeCard(cardId)}>Удалить карточку</Button>
           </ModalContent>
         </Modal>
       )}
@@ -75,7 +78,7 @@ const ModalContent = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   line-height: 1.4;
-  background: #f1f1f1;
+  background: ${COLORS.lightgrey};
   padding: 14px 28px;
   border-radius: 3px;
   max-width: 600px;
@@ -84,15 +87,6 @@ const ModalContent = styled.div`
   flex-direction: column;
 `;
 const StyledOverlay = styled(Modal)`
-  background: rgba(49, 49, 49, 0.8);
-`;
-const ButtonClose = styled.button`
-  padding: 0 5px;
-  margin: 5px;
-  border: none;
-  cursor: pointer;
-  font-size: 19px;
-  position: absolute;
-  right: 0;
-  top: 0;
+  background: ${COLORS.darkgrey};
+  opacity: 0.8;
 `;

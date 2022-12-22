@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { ICard } from "types";
+import { Button, Textarea } from "ui";
 
 interface Props {
   addDesc: (description: string) => void;
-  cardId: number;
-  findCard: (id: number) => ICard | undefined;
+  cardId: string;
+  findCard: (id: string) => ICard | undefined;
 }
 
 export const CardInfo: React.FC<Props> = ({ addDesc, cardId, findCard }) => {
@@ -33,19 +34,26 @@ export const CardInfo: React.FC<Props> = ({ addDesc, cardId, findCard }) => {
       <span>Описание:</span>
       {isEdit ? (
         <>
-          <textarea
+          <Textarea
             value={cardDesc}
             onChange={(e) => setCardDesc(e.target.value)}
             placeholder="Добавить более подробное описание..."
-            rows={3}
-          ></textarea>
-          <button onClick={saveDescCard}>Сохранить</button>
-          <button onClick={cancelEditText}>Отменить</button>
+            rows={5}
+            autoFocus
+          />
+          <Button variant="small" onClick={saveDescCard}>
+            Сохранить
+          </Button>
+          <Button variant="small" onClick={cancelEditText}>
+            Отменить
+          </Button>
         </>
       ) : (
         <div>
           <p>{findCard(cardId)?.description}</p>
-          <button onClick={handleEditDescription}>Редактировать</button>
+          <Button variant="small" onClick={handleEditDescription}>
+            Редактировать
+          </Button>
         </div>
       )}
     </>

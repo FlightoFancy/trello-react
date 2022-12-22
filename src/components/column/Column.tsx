@@ -3,7 +3,7 @@ import { AddCard, CardList } from "components";
 
 interface Props {
   items: ICard[];
-  openModalCard: (id: number) => void;
+  openModalCard: (id: string) => void;
   createCard: (card: ICard) => void;
 }
 

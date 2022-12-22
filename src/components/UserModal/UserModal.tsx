@@ -1,5 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
+import { COLORS } from "styles";
+import { Button, Input } from "ui";
 
 interface Props {
   showName: (name: string) => void;
@@ -23,13 +25,13 @@ export const UserModal: React.FC<Props> = ({ showName }) => {
           <StyledOverlay />
           <ModalContent>
             <label>Ваше имя: </label>
-            <input
+            <Input
               type="text"
               value={userName}
               onChange={(e) => setUserName(e.target.value)}
             />
             <br />
-            <button onClick={saveName}>Сохранить</button>
+            <Button onClick={saveName}>Сохранить</Button>
           </ModalContent>
         </Modal>
       )}
@@ -52,7 +54,7 @@ const ModalContent = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   line-height: 1.4;
-  background: #f1f1f1;
+  background: ${COLORS.lightgrey};
   padding: 14px 28px;
   border-radius: 3px;
   max-width: 600px;
@@ -61,5 +63,6 @@ const ModalContent = styled.div`
   flex-direction: column;
 `;
 const StyledOverlay = styled(Modal)`
-  background: rgba(49, 49, 49, 0.8);
+  background: ${COLORS.darkgrey};
+  opacity: 0.8;
 `;

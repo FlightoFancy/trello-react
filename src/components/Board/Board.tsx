@@ -3,17 +3,18 @@ import { useState } from "react";
 import { ICard } from "types";
 import styled from "styled-components";
 import { CardModal, Column, Title } from "components";
+import { COLORS } from "styles";
 
 export const Board: React.FC = () => {
   const [cards, setCards] = useState<ICard[]>([]);
   const [isModalActive, setIsModalActive] = useState(false);
-  const [cardId, setCardId] = useState(0);
+  const [cardId, setCardId] = useState("");
 
   const activeCardModal = (isActive: boolean) => {
     setIsModalActive(isActive);
   };
 
-  const openModalCard = (id: number) => {
+  const openModalCard = (id: string) => {
     setCardId(id);
     setIsModalActive(true);
   };
@@ -22,7 +23,7 @@ export const Board: React.FC = () => {
     setCards([...cards, newCard]);
   };
 
-  const removeCard = (id: number) => {
+  const removeCard = (id: string) => {
     setCards(cards.filter((card) => card.id !== id));
     setIsModalActive(false);
   };
@@ -43,7 +44,7 @@ export const Board: React.FC = () => {
     }
   };
 
-  const findCard = (id: number) => {
+  const findCard = (id: string) => {
     let card = cards.find((card) => card.id === id);
     if (card) {
       return card;
@@ -93,5 +94,5 @@ const BoardItem = styled.div`
   border-radius: 5px;
   display: flex;
   flex-direction: column;
-  background-color: #90a4ae;
+  background-color: ${COLORS.greyblue};
 `;

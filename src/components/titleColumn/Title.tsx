@@ -1,6 +1,6 @@
 import { useState } from "react";
+import { Input } from "ui";
 
-import { ColumnInputTitle } from "./ColumnInputTitle";
 import { ColumnTitle } from "./ColumnTitle";
 
 interface Props {
@@ -30,12 +30,13 @@ export const Title: React.FC<Props> = ({ name, titleValue }) => {
   return (
     <>
       {isEdit ? (
-        <ColumnInputTitle
+        <Input
           name={name}
           value={value}
           onChange={handleChange}
           onBlur={handleBlur}
           onKeyDown={handleKeyDown}
+          autoFocus
         />
       ) : (
         <ColumnTitle title={value} onClick={editTitle} />

@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import { Board, Header, UserModal } from "components";
 import styled from "styled-components";
+import { COLORS } from "styles";
 
 function App() {
   const [name, setName] = useState("");
@@ -26,7 +27,7 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  background-color: #e1f5fe;
+  background-color: ${COLORS.blue};
   max-width: 100%;
   min-height: 100vh;
   padding: 2em;
