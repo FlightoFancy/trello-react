@@ -72,6 +72,10 @@ export const Board: React.FC = () => {
     setComments([...comments, newComm]);
   };
 
+  const removeComment = (id: string) => {
+    setComments(comments.filter((comment) => comment.id !== id));
+  };
+
   return (
     <Container>
       <CardModal
@@ -83,6 +87,8 @@ export const Board: React.FC = () => {
         addDesc={addDesc}
         editCardName={editCardName}
         createComment={createComment}
+        comments={comments}
+        removeComment={removeComment}
       />
       <BoardItem>
         <Title titleValue="Todo" name="one" />

@@ -1,3 +1,5 @@
+export { CommentList } from "./CommentList";
+export { CommentItem } from "./CommentItem";
 export { AddComment } from "./AddComment";
 export { Column } from "./Column";
 export { AddCard } from "./AddCard";

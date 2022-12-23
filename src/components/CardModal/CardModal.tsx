@@ -15,6 +15,8 @@ interface Props {
   addDesc: (description: string) => void;
   editCardName: (titleCard: string) => void;
   createComment: (newComm: IComment) => void;
+  comments: IComment[];
+  removeComment: (id: string) => void;
 }
 
 export const CardModal: React.FC<Props> = ({
@@ -26,6 +28,8 @@ export const CardModal: React.FC<Props> = ({
   addDesc,
   editCardName,
   createComment,
+  comments,
+  removeComment,
 }) => {
   const divRef = useRef<HTMLDivElement>(null);
 
@@ -57,6 +61,8 @@ export const CardModal: React.FC<Props> = ({
               addDesc={addDesc}
               cardId={cardId}
               findCard={findCard}
+              comments={comments}
+              removeComment={removeComment}
             />
             <Button variant="cross" onClick={closeModal}>
               &#10006;

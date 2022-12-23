@@ -15,7 +15,6 @@ export const AddComment: React.FC<Props> = ({
   cardId,
 }) => {
   const [newComment, setNewComment] = useState("");
-  const [isEdit, setIsEdit] = useState(true);
 
   const addComment = () => {
     if (newComment) {
@@ -25,26 +24,20 @@ export const AddComment: React.FC<Props> = ({
         comment: newComment,
       };
       createComment(newComm);
-      setIsEdit(false);
+      setNewComment("");
     }
   };
 
   return (
     <>
       <span>Комментарии:</span>
-      {isEdit ? (
-        <>
-          <Textarea
-            value={newComment}
-            placeholder="Напишите комментарий..."
-            rows={3}
-            onChange={(e) => setNewComment(e.target.value)}
-          />
-          <Button onClick={addComment}>Сохранить</Button>
-        </>
-      ) : (
-        <div></div>
-      )}
+      <Textarea
+        value={newComment}
+        placeholder="Напишите комментарий..."
+        rows={3}
+        onChange={(e) => setNewComment(e.target.value)}
+      />
+      <Button onClick={addComment}>Сохранить</Button>
     </>
   );
 };

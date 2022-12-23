@@ -1,5 +1,5 @@
-import { AddComment, CardName } from "components";
 import { useState } from "react";
+import { AddComment, CardName, CommentList } from "components";
 import { ICard, IComment } from "types";
 import { Button, Textarea } from "ui";
 
@@ -9,6 +9,8 @@ interface Props {
   findCard: (id: string) => ICard | undefined;
   editCardName: (titleCard: string) => void;
   createComment: (newComm: IComment) => void;
+  comments: IComment[];
+  removeComment: (id: string) => void;
 }
 
 export const CardInfo: React.FC<Props> = ({
@@ -17,6 +19,8 @@ export const CardInfo: React.FC<Props> = ({
   findCard,
   editCardName,
   createComment,
+  comments,
+  removeComment,
 }) => {
   const [cardDesc, setCardDesc] = useState("");
   const [isEdit, setIsEdit] = useState(false);
@@ -73,6 +77,11 @@ export const CardInfo: React.FC<Props> = ({
         createComment={createComment}
         cardId={cardId}
         findCard={findCard}
+      />
+      <CommentList
+        removeComment={removeComment}
+        comments={comments}
+        cardId={cardId}
       />
     </>
   );
