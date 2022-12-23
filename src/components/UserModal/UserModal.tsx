@@ -24,7 +24,7 @@ export const UserModal: React.FC<Props> = ({ showName }) => {
         <Modal>
           <StyledOverlay />
           <ModalContent>
-            <label>Ваше имя: </label>
+            <span>Ваше имя: </span>
             <Input
               type="text"
               value={userName}

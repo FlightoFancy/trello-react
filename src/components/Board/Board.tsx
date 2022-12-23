@@ -1,12 +1,13 @@
 import { useState } from "react";
 
-import { ICard } from "types";
+import { ICard, IComment } from "types";
 import styled from "styled-components";
 import { CardModal, Column, Title } from "components";
 import { COLORS } from "styles";
 
 export const Board: React.FC = () => {
   const [cards, setCards] = useState<ICard[]>([]);
+  const [comments, setComments] = useState<IComment[]>([]);
   const [isModalActive, setIsModalActive] = useState(false);
   const [cardId, setCardId] = useState("");
 
@@ -44,11 +45,31 @@ export const Board: React.FC = () => {
     }
   };
 
+  const editCardName = (titleCard: string) => {
+    if (titleCard) {
+      setCards(
+        cards.map((card) => {
+          if (card.id === cardId) {
+            return {
+              ...card,
+              title: titleCard,
+            };
+          }
+          return card;
+        })
+      );
+    }
+  };
+
   const findCard = (id: string) => {
     let card = cards.find((card) => card.id === id);
     if (card) {
       return card;
     }
+  };
+
+  const createComment = (newComm: IComment) => {
+    setComments([...comments, newComm]);
   };
 
   return (
@@ -60,6 +81,8 @@ export const Board: React.FC = () => {
         cardId={cardId}
         findCard={findCard}
         addDesc={addDesc}
+        editCardName={editCardName}
+        createComment={createComment}
       />
       <BoardItem>
         <Title titleValue="Todo" name="one" />

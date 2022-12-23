@@ -3,3 +3,9 @@ export interface ICard {
   title: string;
   description?: string;
 }
+
+export interface IComment {
+  id: string;
+  cardId?: string;
+  comment: string;
+}

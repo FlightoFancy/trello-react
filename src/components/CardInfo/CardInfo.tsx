@@ -1,14 +1,23 @@
+import { AddComment, CardName } from "components";
 import { useState } from "react";
-import { ICard } from "types";
+import { ICard, IComment } from "types";
 import { Button, Textarea } from "ui";
 
 interface Props {
   addDesc: (description: string) => void;
   cardId: string;
   findCard: (id: string) => ICard | undefined;
+  editCardName: (titleCard: string) => void;
+  createComment: (newComm: IComment) => void;
 }
 
-export const CardInfo: React.FC<Props> = ({ addDesc, cardId, findCard }) => {
+export const CardInfo: React.FC<Props> = ({
+  addDesc,
+  cardId,
+  findCard,
+  editCardName,
+  createComment,
+}) => {
   const [cardDesc, setCardDesc] = useState("");
   const [isEdit, setIsEdit] = useState(false);
 
@@ -30,7 +39,11 @@ export const CardInfo: React.FC<Props> = ({ addDesc, cardId, findCard }) => {
   return (
     <>
       <span>ID: {cardId}</span>
-      <span>Название: {findCard(cardId)?.title}</span>
+      <CardName
+        editCardName={editCardName}
+        findCard={findCard}
+        cardId={cardId}
+      />
       <span>Описание:</span>
       {isEdit ? (
         <>
@@ -56,6 +69,11 @@ export const CardInfo: React.FC<Props> = ({ addDesc, cardId, findCard }) => {
           </Button>
         </div>
       )}
+      <AddComment
+        createComment={createComment}
+        cardId={cardId}
+        findCard={findCard}
+      />
     </>
   );
 };
