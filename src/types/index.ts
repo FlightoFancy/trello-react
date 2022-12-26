@@ -8,4 +8,5 @@ export interface IComment {
   id: string;
   cardId?: string;
   comment: string;
+  author: string;
 }

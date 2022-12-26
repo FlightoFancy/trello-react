@@ -11,6 +11,7 @@ interface Props {
   createComment: (newComm: IComment) => void;
   comments: IComment[];
   removeComment: (id: string) => void;
+  userName: string;
 }
 
 export const CardInfo: React.FC<Props> = ({
@@ -21,6 +22,7 @@ export const CardInfo: React.FC<Props> = ({
   createComment,
   comments,
   removeComment,
+  userName,
 }) => {
   const [cardDesc, setCardDesc] = useState("");
   const [isEdit, setIsEdit] = useState(false);
@@ -42,7 +44,6 @@ export const CardInfo: React.FC<Props> = ({
 
   return (
     <>
-      <span>ID: {cardId}</span>
       <CardName
         editCardName={editCardName}
         findCard={findCard}
@@ -77,11 +78,13 @@ export const CardInfo: React.FC<Props> = ({
         createComment={createComment}
         cardId={cardId}
         findCard={findCard}
+        userName={userName}
       />
       <CommentList
         removeComment={removeComment}
         comments={comments}
         cardId={cardId}
+        userName={userName}
       />
     </>
   );

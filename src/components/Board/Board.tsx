@@ -5,7 +5,11 @@ import styled from "styled-components";
 import { CardModal, Column, Title } from "components";
 import { COLORS } from "styles";
 
-export const Board: React.FC = () => {
+interface Props{
+  userName: string
+}
+
+export const Board: React.FC<Props> = ({userName}) => {
   const [cards, setCards] = useState<ICard[]>([]);
   const [comments, setComments] = useState<IComment[]>([]);
   const [isModalActive, setIsModalActive] = useState(false);
@@ -89,6 +93,7 @@ export const Board: React.FC = () => {
         createComment={createComment}
         comments={comments}
         removeComment={removeComment}
+        userName={userName}
       />
       <BoardItem>
         <Title titleValue="Todo" name="one" />

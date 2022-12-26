@@ -1,4 +1,5 @@
 import { useState } from "react";
+import styled from "styled-components";
 import { ICard } from "types";
 import { Input } from "ui";
 
@@ -34,8 +35,8 @@ export const CardName: React.FC<Props> = ({
   };
 
   return (
-    <>
-    <span>Название:</span>
+    <Root>
+      <span>Название:</span>
       {isEdit ? (
         <Input
           value={cardTitle}
@@ -49,6 +50,12 @@ export const CardName: React.FC<Props> = ({
           <span onClick={editTitle}>{findCard(cardId)?.title}</span>
         </>
       )}
-    </>
+    </Root>
   );
 };
+
+const Root = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 10px 0;
+`;

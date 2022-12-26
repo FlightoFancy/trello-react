@@ -5,7 +5,7 @@ interface Props {
 }
 
 export const Header: React.FC<Props> = ({ userName }) => {
-  return <Root>{`Имя пользователя: ${userName}`}</Root>;
+  return <Root>Имя пользователя: {userName}</Root>;
 };
 
 const Root = styled.header`

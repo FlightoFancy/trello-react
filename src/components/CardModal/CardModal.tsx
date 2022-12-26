@@ -17,6 +17,7 @@ interface Props {
   createComment: (newComm: IComment) => void;
   comments: IComment[];
   removeComment: (id: string) => void;
+  userName: string;
 }
 
 export const CardModal: React.FC<Props> = ({
@@ -30,6 +31,7 @@ export const CardModal: React.FC<Props> = ({
   createComment,
   comments,
   removeComment,
+  userName,
 }) => {
   const divRef = useRef<HTMLDivElement>(null);
 
@@ -63,6 +65,7 @@ export const CardModal: React.FC<Props> = ({
               findCard={findCard}
               comments={comments}
               removeComment={removeComment}
+              userName={userName}
             />
             <Button variant="cross" onClick={closeModal}>
               &#10006;
