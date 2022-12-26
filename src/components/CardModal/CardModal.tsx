@@ -82,6 +82,7 @@ export const CardModal: React.FC<Props> = ({
 const Modal = styled.div`
   width: 100vw;
   height: 100vh;
+  overflow-y: scroll;
   top: 0;
   left: 0;
   right: 0;
@@ -93,9 +94,9 @@ const Modal = styled.div`
 `;
 const ModalContent = styled.div`
   position: absolute;
-  top: 40%;
+  top: 5%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%);
   line-height: 1.4;
   background: ${COLORS.lightgrey};
   padding: 14px 28px;
