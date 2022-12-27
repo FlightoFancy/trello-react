@@ -25,15 +25,17 @@ export const UserModal: React.FC<Props> = ({ showName }) => {
         <Modal>
           <StyledOverlay />
           <ModalContent>
-            <span>Ваше имя: </span>
             <form onSubmit={handleSubmit}>
-              <Input
-                margin="10px 0"
-                type="text"
-                value={userName}
-                onChange={(e) => setUserName(e.target.value)}
-              />
-              <Button type="submit">Сохранить</Button>
+              <label>
+                Ваше имя:
+                <Input
+                  margin="10px 0"
+                  type="text"
+                  value={userName}
+                  onChange={(e) => setUserName(e.target.value)}
+                />
+                <Button type="submit">Сохранить</Button>
+              </label>
             </form>
           </ModalContent>
         </Modal>
