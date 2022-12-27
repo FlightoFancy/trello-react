@@ -19,7 +19,8 @@ export const AddComment: React.FC<Props> = ({
 }) => {
   const [newComment, setNewComment] = useState("");
 
-  const addComment = () => {
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
     if (newComment) {
       const newComm = {
         id: uuidv4(),
@@ -35,13 +36,15 @@ export const AddComment: React.FC<Props> = ({
   return (
     <Root>
       <span>Комментарии:</span>
-      <Textarea
-        value={newComment}
-        placeholder="Напишите комментарий..."
-        rows={3}
-        onChange={(e) => setNewComment(e.target.value)}
-      />
-      <Button onClick={addComment}>Сохранить</Button>
+      <form onSubmit={handleSubmit}>
+        <Textarea
+          value={newComment}
+          placeholder="Напишите комментарий..."
+          rows={3}
+          onChange={(e) => setNewComment(e.target.value)}
+        />
+        <Button type="submit">Сохранить</Button>
+      </form>
     </Root>
   );
 };

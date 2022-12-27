@@ -19,7 +19,8 @@ export const AddCard: React.FC<Props> = ({ createCard }) => {
   const closeForm = () => {
     setIsAddCardFormVisible(false);
   };
-  const addCard = () => {
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
     if (newCardTitle) {
       const newCard = {
         id: uuidv4(),
@@ -35,19 +36,21 @@ export const AddCard: React.FC<Props> = ({ createCard }) => {
     <>
       {isAddCardFormVisible ? (
         <Container>
-          <Textarea
-            value={newCardTitle}
-            placeholder="Введите заголовок карточки"
-            autoFocus
-            rows={3}
-            onChange={(e) => setNewCardTitle(e.target.value)}
-          />
-          <Button variant="addCard" onClick={addCard}>
-            Добавить карточку
-          </Button>
-          <Button variant="close" onClick={closeForm}>
-            &#10006;
-          </Button>
+          <form onSubmit={handleSubmit}>
+            <Textarea
+              value={newCardTitle}
+              placeholder="Введите заголовок карточки"
+              autoFocus
+              rows={3}
+              onChange={(e) => setNewCardTitle(e.target.value)}
+            />
+            <Button type="submit" variant="addCard">
+              Добавить карточку
+            </Button>
+            <Button type="reset" variant="close" onClick={closeForm}>
+              &#10006;
+            </Button>
+          </form>
         </Container>
       ) : (
         <Button variant="center" onClick={openForm}>

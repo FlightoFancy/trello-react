@@ -35,7 +35,8 @@ export const CardInfo: React.FC<Props> = ({
     setIsEdit(true);
   };
 
-  const saveDescCard = () => {
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
     if (cardDesc) {
       addDesc(cardDesc);
       setIsEdit(false);
@@ -51,7 +52,7 @@ export const CardInfo: React.FC<Props> = ({
       />
       <span>Описание:</span>
       {isEdit ? (
-        <>
+        <form onSubmit={handleSubmit}>
           <Textarea
             value={cardDesc}
             onChange={(e) => setCardDesc(e.target.value)}
@@ -59,13 +60,13 @@ export const CardInfo: React.FC<Props> = ({
             rows={5}
             autoFocus
           />
-          <Button variant="small" onClick={saveDescCard}>
+          <Button type="submit" variant="small">
             Сохранить
           </Button>
-          <Button variant="small" onClick={cancelEditText}>
+          <Button type="reset" variant="small" onClick={cancelEditText}>
             Отменить
           </Button>
-        </>
+        </form>
       ) : (
         <div>
           <p>{findCard(cardId)?.description}</p>
