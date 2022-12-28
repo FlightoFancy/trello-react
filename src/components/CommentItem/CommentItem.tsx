@@ -57,7 +57,7 @@ export const CommentItem: React.FC<Props> = ({
 const Root = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 10px;
+  margin: 0 0 20px 0;
 `;
 
 const Div = styled.div`

@@ -33,7 +33,7 @@ export const CardModal: React.FC<Props> = ({
   comments,
   removeComment,
   userName,
-  editComment
+  editComment,
 }) => {
   const divRef = useRef<HTMLDivElement>(null);
 
@@ -73,7 +73,6 @@ export const CardModal: React.FC<Props> = ({
             <Button variant="cross" onClick={closeModal}>
               &#10006;
             </Button>
-            <br />
             <Button onClick={() => removeCard(cardId)}>Удалить карточку</Button>
           </ModalContent>
         </Modal>
