@@ -96,6 +96,13 @@ export const Board: React.FC<Props> = ({ userName }) => {
     }
   };
 
+  const findCountComments = (id: string) => {
+    let filteredComments = comments.filter((comment) => comment.cardId === id);
+    if (filteredComments) {
+      return filteredComments.length;
+    }
+  };
+
   return (
     <Container>
       <CardModal
@@ -118,6 +125,7 @@ export const Board: React.FC<Props> = ({ userName }) => {
           items={cards}
           openModalCard={openModalCard}
           createCard={createCard}
+          findCountComments={findCountComments}
         />
       </BoardItem>
       <BoardItem>
