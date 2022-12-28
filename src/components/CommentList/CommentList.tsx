@@ -6,12 +6,14 @@ interface Props {
   cardId: string;
   removeComment: (id: string) => void;
   userName: string;
+  editComment: (commentNewValue: string, id: string) => void;
 }
 export const CommentList: React.FC<Props> = ({
   comments,
   cardId,
   removeComment,
   userName,
+  editComment
 }) => {
   return (
     <>
@@ -22,6 +24,7 @@ export const CommentList: React.FC<Props> = ({
             key={comment.id}
             removeComment={removeComment}
             userName={userName}
+            editComment={editComment}
             {...comment}
           />
         ))}

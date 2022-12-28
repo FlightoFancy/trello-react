@@ -80,6 +80,22 @@ export const Board: React.FC<Props> = ({ userName }) => {
     setComments(comments.filter((comment) => comment.id !== id));
   };
 
+  const editComment = (commentNewValue: string, id: string) => {
+    if (commentNewValue) {
+      setComments(
+        comments.map((comment) => {
+          if (comment.id === id) {
+            return {
+              ...comment,
+              comment: commentNewValue,
+            };
+          }
+          return comment;
+        })
+      );
+    }
+  };
+
   return (
     <Container>
       <CardModal
@@ -93,6 +109,7 @@ export const Board: React.FC<Props> = ({ userName }) => {
         createComment={createComment}
         comments={comments}
         removeComment={removeComment}
+        editComment={editComment}
         userName={userName}
       />
       <BoardItem>
