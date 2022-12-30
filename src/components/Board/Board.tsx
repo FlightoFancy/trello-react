@@ -1,9 +1,10 @@
 import { useState } from "react";
 
-import { ICard, IComment } from "types";
+import { ICard, IColumn, IComment } from "types";
 import styled from "styled-components";
 import { CardModal, Column, Title } from "components";
 import { COLORS } from "styles";
+import { INITIAL_COLUMNS } from "constants/mock";
 
 interface Props {
   userName: string;
@@ -14,6 +15,7 @@ export const Board: React.FC<Props> = ({ userName }) => {
   const [comments, setComments] = useState<IComment[]>([]);
   const [isModalActive, setIsModalActive] = useState(false);
   const [cardId, setCardId] = useState("");
+  const [columns] = useState<IColumn[]>(INITIAL_COLUMNS);
 
   const activeCardModal = (isActive: boolean) => {
     setIsModalActive(isActive);
@@ -119,24 +121,18 @@ export const Board: React.FC<Props> = ({ userName }) => {
         editComment={editComment}
         userName={userName}
       />
-      <BoardItem>
-        <Title titleValue="Todo" name="one" />
-        <Column
-          items={cards}
-          openModalCard={openModalCard}
-          createCard={createCard}
-          findCountComments={findCountComments}
-        />
-      </BoardItem>
-      <BoardItem>
-        <Title titleValue="In progress" name="two" />
-      </BoardItem>
-      <BoardItem>
-        <Title titleValue="Testing" name="three" />
-      </BoardItem>
-      <BoardItem>
-        <Title titleValue="Done" name="four" />
-      </BoardItem>
+      {columns.map((column) => (
+        <BoardItem key={column.id}>
+          <Title titleValue={column.title} name={column.id} />
+          <Column
+            items={cards.filter((card) => card.columnId === column.id)}
+            openModalCard={openModalCard}
+            createCard={createCard}
+            columnId={column.id}
+            findCountComments={findCountComments}
+          />
+        </BoardItem>
+      ))}
     </Container>
   );
 };

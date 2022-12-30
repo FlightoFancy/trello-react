@@ -6,6 +6,7 @@ interface Props {
   openModalCard: (id: string) => void;
   createCard: (card: ICard) => void;
   findCountComments: (id: string) => number | undefined;
+  columnId: string;
 }
 
 export const Column: React.FC<Props> = ({
@@ -13,6 +14,7 @@ export const Column: React.FC<Props> = ({
   createCard,
   items,
   findCountComments,
+  columnId,
 }) => {
   return (
     <>
@@ -21,7 +23,7 @@ export const Column: React.FC<Props> = ({
         openModalCard={openModalCard}
         findCountComments={findCountComments}
       />
-      <AddCard createCard={createCard} />
+      <AddCard createCard={createCard} columnId={columnId} />
     </>
   );
 };
