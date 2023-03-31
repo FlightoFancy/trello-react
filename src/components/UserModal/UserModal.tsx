@@ -15,6 +15,7 @@ export const UserModal: React.FC<Props> = ({ showName }) => {
     e.preventDefault();
     if (userName) {
       showName(userName);
+      localStorage.setItem("userName", userName);
       setIsModalUserOpen(false);
     }
   };

@@ -11,8 +11,19 @@ interface Props {
 }
 
 export const Board: React.FC<Props> = ({ userName }) => {
-  const [cards, setCards] = useState<ICard[]>([]);
-  const [comments, setComments] = useState<IComment[]>([]);
+  
+  const getDataLocalStorage = (key: string) => {
+    const storage = localStorage.getItem(key);
+    if (storage) {
+      let items = JSON.parse(storage);
+      return items;
+    } else return [];
+  };
+
+  const [cards, setCards] = useState<ICard[]>(getDataLocalStorage("cards"));
+  const [comments, setComments] = useState<IComment[]>(
+    getDataLocalStorage("comments")
+  );
   const [isModalActive, setIsModalActive] = useState(false);
   const [cardId, setCardId] = useState("");
   const [columns] = useState<IColumn[]>(INITIAL_COLUMNS);
@@ -28,10 +39,11 @@ export const Board: React.FC<Props> = ({ userName }) => {
 
   const createCard = (newCard: ICard) => {
     setCards([...cards, newCard]);
+    localStorage.setItem("cards", JSON.stringify([...cards, newCard]));
   };
 
-  const removeCard = (id: string) => {
-    setCards(cards.filter((card) => card.id !== id));
+  const removeCardFromPopup = (id: string) => {
+    deleteCard(id);
     setIsModalActive(false);
   };
 
@@ -47,6 +59,20 @@ export const Board: React.FC<Props> = ({ userName }) => {
           }
           return card;
         })
+      );
+      localStorage.setItem(
+        "cards",
+        JSON.stringify(
+          cards.map((card) => {
+            if (card.id === cardId) {
+              return {
+                ...card,
+                description: description,
+              };
+            }
+            return card;
+          })
+        )
       );
     }
   };
@@ -64,6 +90,20 @@ export const Board: React.FC<Props> = ({ userName }) => {
           return card;
         })
       );
+      localStorage.setItem(
+        "cards",
+        JSON.stringify(
+          cards.map((card) => {
+            if (card.id === cardId) {
+              return {
+                ...card,
+                title: titleCard,
+              };
+            }
+            return card;
+          })
+        )
+      );
     }
   };
 
@@ -76,10 +116,15 @@ export const Board: React.FC<Props> = ({ userName }) => {
 
   const createComment = (newComm: IComment) => {
     setComments([...comments, newComm]);
+    localStorage.setItem("comments", JSON.stringify([...comments, newComm]));
   };
 
   const removeComment = (id: string) => {
     setComments(comments.filter((comment) => comment.id !== id));
+    localStorage.setItem(
+      "comments",
+      JSON.stringify(comments.filter((comment) => comment.id !== id))
+    );
   };
 
   const editComment = (commentNewValue: string, id: string) => {
@@ -95,6 +140,20 @@ export const Board: React.FC<Props> = ({ userName }) => {
           return comment;
         })
       );
+      localStorage.setItem(
+        "comments",
+        JSON.stringify(
+          comments.map((comment) => {
+            if (comment.id === id) {
+              return {
+                ...comment,
+                comment: commentNewValue,
+              };
+            }
+            return comment;
+          })
+        )
+      );
     }
   };
 
@@ -107,12 +166,16 @@ export const Board: React.FC<Props> = ({ userName }) => {
 
   const deleteCard = (id: string) => {
     setCards(cards.filter((card) => card.id !== id));
+    localStorage.setItem(
+      "cards",
+      JSON.stringify(cards.filter((card) => card.id !== id))
+    );
   };
 
   return (
     <Container>
       <CardModal
-        removeCard={removeCard}
+        removeCard={removeCardFromPopup}
         active={isModalActive}
         setActive={activeCardModal}
         cardId={cardId}

@@ -10,10 +10,11 @@ interface Props {
 
 export const Title: React.FC<Props> = ({ name, titleValue }) => {
   const [isEdit, setIsEdit] = useState(false);
-  const [value, setValue] = useState(titleValue);
+  const [value, setValue] = useState(localStorage.getItem(name) || titleValue);
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     setValue(e.target.value);
+    localStorage.setItem(name, e.target.value);
   };
   const handleBlur: React.FocusEventHandler<HTMLInputElement> = () => {
     setIsEdit(false);
