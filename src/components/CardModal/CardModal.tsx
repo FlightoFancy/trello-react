@@ -18,6 +18,7 @@ interface Props {
   comments: IComment[];
   removeComment: (id: string) => void;
   userName: string;
+  editComment: (commentNewValue: string, id: string) => void;
 }
 
 export const CardModal: React.FC<Props> = ({
@@ -32,6 +33,7 @@ export const CardModal: React.FC<Props> = ({
   comments,
   removeComment,
   userName,
+  editComment,
 }) => {
   const divRef = useRef<HTMLDivElement>(null);
 
@@ -66,11 +68,11 @@ export const CardModal: React.FC<Props> = ({
               comments={comments}
               removeComment={removeComment}
               userName={userName}
+              editComment={editComment}
             />
             <Button variant="cross" onClick={closeModal}>
               &#10006;
             </Button>
-            <br />
             <Button onClick={() => removeCard(cardId)}>Удалить карточку</Button>
           </ModalContent>
         </Modal>

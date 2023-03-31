@@ -1,11 +1,13 @@
+import { useState } from "react";
 import styled from "styled-components";
 import { COLORS } from "styles";
 import { IComment } from "types";
-import { Button } from "ui";
+import { Button, Textarea } from "ui";
 
 interface Props extends IComment {
   removeComment: (id: string) => void;
   userName: string;
+  editComment: (commentNewValue: string, id: string) => void;
 }
 
 export const CommentItem: React.FC<Props> = ({
@@ -13,16 +15,41 @@ export const CommentItem: React.FC<Props> = ({
   comment,
   removeComment,
   userName,
+  editComment,
 }) => {
+  const [isEdit, setIsEdit] = useState(false);
+  const [commentValue, setCommentValue] = useState("");
+
+  const handleEditComment = () => {
+    setIsEdit(!isEdit);
+    editComment(commentValue, id);
+  };
+
   return (
     <Root>
       <div>Автор: {userName}</div>
       <Div>
-        <span>{comment}</span>
-        <Button onClick={() => removeComment(id)} variant="close">
-          &#10006;
-        </Button>
+        {isEdit ? (
+          <>
+            <Textarea
+              value={commentValue}
+              rows={2}
+              onChange={(e) => setCommentValue(e.target.value)}
+              autoFocus
+            />
+          </>
+        ) : (
+          <span>{comment}</span>
+        )}
       </Div>
+      <div>
+        <Button onClick={() => handleEditComment()} variant="small">
+          изменить
+        </Button>
+        <Button onClick={() => removeComment(id)} variant="small">
+          удалить
+        </Button>
+      </div>
     </Root>
   );
 };
@@ -30,14 +57,11 @@ export const CommentItem: React.FC<Props> = ({
 const Root = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 10px;
+  margin: 0 0 20px 0;
 `;
 
 const Div = styled.div`
   border: 1px solid ${COLORS.lightgrey};
   background-color: ${COLORS.white};
   padding: 5px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 `;

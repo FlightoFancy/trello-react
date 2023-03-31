@@ -12,6 +12,7 @@ interface Props {
   comments: IComment[];
   removeComment: (id: string) => void;
   userName: string;
+  editComment: (commentNewValue: string, id: string) => void;
 }
 
 export const CardInfo: React.FC<Props> = ({
@@ -23,6 +24,7 @@ export const CardInfo: React.FC<Props> = ({
   comments,
   removeComment,
   userName,
+  editComment,
 }) => {
   const [cardDesc, setCardDesc] = useState("");
   const [isEdit, setIsEdit] = useState(false);
@@ -86,6 +88,7 @@ export const CardInfo: React.FC<Props> = ({
         comments={comments}
         cardId={cardId}
         userName={userName}
+        editComment={editComment}
       />
     </>
   );

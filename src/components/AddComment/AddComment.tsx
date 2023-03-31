@@ -54,5 +54,5 @@ export const AddComment: React.FC<Props> = ({
 const Root = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 10px 0;
+  margin: 20px 0;
 `;

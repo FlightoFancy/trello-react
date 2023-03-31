@@ -7,24 +7,28 @@ import { Button, Textarea } from "ui";
 
 interface Props {
   createCard: (card: ICard) => void;
+  columnId: string;
 }
 
-export const AddCard: React.FC<Props> = ({ createCard }) => {
+export const AddCard: React.FC<Props> = ({ createCard, columnId }) => {
   const [isAddCardFormVisible, setIsAddCardFormVisible] = useState(false);
   const [newCardTitle, setNewCardTitle] = useState("");
 
   const openForm = () => {
     setIsAddCardFormVisible(true);
   };
+
   const closeForm = () => {
     setIsAddCardFormVisible(false);
   };
+
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     if (newCardTitle) {
       const newCard = {
         id: uuidv4(),
         title: newCardTitle,
+        columnId: columnId,
       };
       createCard(newCard);
       setIsAddCardFormVisible(false);
