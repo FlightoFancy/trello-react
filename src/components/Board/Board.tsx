@@ -105,6 +105,10 @@ export const Board: React.FC<Props> = ({ userName }) => {
     }
   };
 
+  const deleteCard = (id: string) => {
+    setCards(cards.filter((card) => card.id !== id));
+  };
+
   return (
     <Container>
       <CardModal
@@ -130,6 +134,7 @@ export const Board: React.FC<Props> = ({ userName }) => {
             createCard={createCard}
             columnId={column.id}
             findCountComments={findCountComments}
+            deleteCard={deleteCard}
           />
         </BoardItem>
       ))}

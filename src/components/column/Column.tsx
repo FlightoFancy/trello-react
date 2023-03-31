@@ -7,6 +7,7 @@ interface Props {
   createCard: (card: ICard) => void;
   findCountComments: (id: string) => number | undefined;
   columnId: string;
+  deleteCard: (id: string) => void;
 }
 
 export const Column: React.FC<Props> = ({
@@ -15,6 +16,7 @@ export const Column: React.FC<Props> = ({
   items,
   findCountComments,
   columnId,
+  deleteCard,
 }) => {
   return (
     <>
@@ -22,6 +24,7 @@ export const Column: React.FC<Props> = ({
         items={items}
         openModalCard={openModalCard}
         findCountComments={findCountComments}
+        deleteCard={deleteCard}
       />
       <AddCard createCard={createCard} columnId={columnId} />
     </>
