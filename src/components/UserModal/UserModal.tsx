@@ -11,7 +11,8 @@ export const UserModal: React.FC<Props> = ({ showName }) => {
   const [isModalUserOpen, setIsModalUserOpen] = useState(true);
   const [userName, setUserName] = useState("");
 
-  const saveName = () => {
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
     if (userName) {
       showName(userName);
       setIsModalUserOpen(false);
@@ -24,14 +25,18 @@ export const UserModal: React.FC<Props> = ({ showName }) => {
         <Modal>
           <StyledOverlay />
           <ModalContent>
-            <label>Ваше имя: </label>
-            <Input
-              type="text"
-              value={userName}
-              onChange={(e) => setUserName(e.target.value)}
-            />
-            <br />
-            <Button onClick={saveName}>Сохранить</Button>
+            <form onSubmit={handleSubmit}>
+              <label>
+                Ваше имя:
+                <Input
+                  margin="10px 0"
+                  type="text"
+                  value={userName}
+                  onChange={(e) => setUserName(e.target.value)}
+                />
+                <Button type="submit">Сохранить</Button>
+              </label>
+            </form>
           </ModalContent>
         </Modal>
       )}

@@ -15,7 +15,7 @@ function App() {
     <Container>
       <UserModal showName={showName} />
       <Header userName={name} />
-      <Board />
+      <Board userName={name}/>
     </Container>
   );
 }

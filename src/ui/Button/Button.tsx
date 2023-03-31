@@ -34,8 +34,8 @@ const variantButtonOptions = {
   padding: 0 5px;
     `,
   small: `
-    width: 50%;
-    margin: 5px 0;
+    width: 45%;
+    margin: 5px 3px;
     `,
 };
 

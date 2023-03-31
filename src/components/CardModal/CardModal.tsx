@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 
 import { CardInfo } from "components";
 import styled from "styled-components";
-import { ICard } from "types";
+import { ICard, IComment } from "types";
 import { Button } from "ui";
 import { COLORS } from "styles";
 
@@ -13,6 +13,11 @@ interface Props {
   removeCard: (id: string) => void;
   findCard: (id: string) => ICard | undefined;
   addDesc: (description: string) => void;
+  editCardName: (titleCard: string) => void;
+  createComment: (newComm: IComment) => void;
+  comments: IComment[];
+  removeComment: (id: string) => void;
+  userName: string;
 }
 
 export const CardModal: React.FC<Props> = ({
@@ -22,6 +27,11 @@ export const CardModal: React.FC<Props> = ({
   removeCard,
   findCard,
   addDesc,
+  editCardName,
+  createComment,
+  comments,
+  removeComment,
+  userName,
 }) => {
   const divRef = useRef<HTMLDivElement>(null);
 
@@ -47,7 +57,16 @@ export const CardModal: React.FC<Props> = ({
         <Modal ref={divRef} tabIndex={0} onKeyDown={handleKeyDown}>
           <StyledOverlay />
           <ModalContent>
-            <CardInfo addDesc={addDesc} cardId={cardId} findCard={findCard} />
+            <CardInfo
+              createComment={createComment}
+              editCardName={editCardName}
+              addDesc={addDesc}
+              cardId={cardId}
+              findCard={findCard}
+              comments={comments}
+              removeComment={removeComment}
+              userName={userName}
+            />
             <Button variant="cross" onClick={closeModal}>
               &#10006;
             </Button>
@@ -63,6 +82,7 @@ export const CardModal: React.FC<Props> = ({
 const Modal = styled.div`
   width: 100vw;
   height: 100vh;
+  overflow-y: scroll;
   top: 0;
   left: 0;
   right: 0;
@@ -74,9 +94,9 @@ const Modal = styled.div`
 `;
 const ModalContent = styled.div`
   position: absolute;
-  top: 40%;
+  top: 5%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%);
   line-height: 1.4;
   background: ${COLORS.lightgrey};
   padding: 14px 28px;
