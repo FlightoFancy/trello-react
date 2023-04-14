@@ -5,24 +5,18 @@ import styled from "styled-components";
 import { CardModal, Column, Title } from "components";
 import { COLORS } from "styles";
 import { INITIAL_COLUMNS } from "constants/mock";
+import { cardRepository, commentRepository } from "utils/localStorageUtility";
 
 interface Props {
   userName: string;
 }
 
 export const Board: React.FC<Props> = ({ userName }) => {
-  
-  const getDataLocalStorage = (key: string) => {
-    const storage = localStorage.getItem(key);
-    if (storage) {
-      let items = JSON.parse(storage);
-      return items;
-    } else return [];
-  };
-
-  const [cards, setCards] = useState<ICard[]>(getDataLocalStorage("cards"));
+  const [cards, setCards] = useState<ICard[]>(
+    cardRepository.getDataLocalStorage()
+  );
   const [comments, setComments] = useState<IComment[]>(
-    getDataLocalStorage("comments")
+    commentRepository.getDataLocalStorage()
   );
   const [isModalActive, setIsModalActive] = useState(false);
   const [cardId, setCardId] = useState("");
@@ -39,7 +33,7 @@ export const Board: React.FC<Props> = ({ userName }) => {
 
   const createCard = (newCard: ICard) => {
     setCards([...cards, newCard]);
-    localStorage.setItem("cards", JSON.stringify([...cards, newCard]));
+    cardRepository.addItem(cards, newCard);
   };
 
   const removeCardFromPopup = (id: string) => {
@@ -48,33 +42,18 @@ export const Board: React.FC<Props> = ({ userName }) => {
   };
 
   const addDesc = (description: string) => {
-    if (description) {
-      setCards(
-        cards.map((card) => {
-          if (card.id === cardId) {
-            return {
-              ...card,
-              description: description,
-            };
-          }
-          return card;
-        })
-      );
-      localStorage.setItem(
-        "cards",
-        JSON.stringify(
-          cards.map((card) => {
-            if (card.id === cardId) {
-              return {
-                ...card,
-                description: description,
-              };
-            }
-            return card;
-          })
-        )
-      );
-    }
+    setCards(
+      cards.map((card) => {
+        if (card.id === cardId) {
+          return {
+            ...card,
+            description: description,
+          };
+        }
+        return card;
+      })
+    );
+    cardRepository.addDescCard(cards, cardId, description);
   };
 
   const editCardName = (titleCard: string) => {
@@ -90,20 +69,7 @@ export const Board: React.FC<Props> = ({ userName }) => {
           return card;
         })
       );
-      localStorage.setItem(
-        "cards",
-        JSON.stringify(
-          cards.map((card) => {
-            if (card.id === cardId) {
-              return {
-                ...card,
-                title: titleCard,
-              };
-            }
-            return card;
-          })
-        )
-      );
+      cardRepository.editCardName(cards, cardId, titleCard);
     }
   };
 
@@ -116,15 +82,12 @@ export const Board: React.FC<Props> = ({ userName }) => {
 
   const createComment = (newComm: IComment) => {
     setComments([...comments, newComm]);
-    localStorage.setItem("comments", JSON.stringify([...comments, newComm]));
+    commentRepository.addItem(comments, newComm);
   };
 
   const removeComment = (id: string) => {
     setComments(comments.filter((comment) => comment.id !== id));
-    localStorage.setItem(
-      "comments",
-      JSON.stringify(comments.filter((comment) => comment.id !== id))
-    );
+    commentRepository.deleteItem(comments, id);
   };
 
   const editComment = (commentNewValue: string, id: string) => {
@@ -140,20 +103,7 @@ export const Board: React.FC<Props> = ({ userName }) => {
           return comment;
         })
       );
-      localStorage.setItem(
-        "comments",
-        JSON.stringify(
-          comments.map((comment) => {
-            if (comment.id === id) {
-              return {
-                ...comment,
-                comment: commentNewValue,
-              };
-            }
-            return comment;
-          })
-        )
-      );
+      commentRepository.editComment(comments, id, commentNewValue);
     }
   };
 
@@ -166,10 +116,7 @@ export const Board: React.FC<Props> = ({ userName }) => {
 
   const deleteCard = (id: string) => {
     setCards(cards.filter((card) => card.id !== id));
-    localStorage.setItem(
-      "cards",
-      JSON.stringify(cards.filter((card) => card.id !== id))
-    );
+    cardRepository.deleteItem(cards, id);
   };
 
   return (

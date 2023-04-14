@@ -39,10 +39,8 @@ export const CardInfo: React.FC<Props> = ({
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    if (cardDesc) {
-      addDesc(cardDesc);
-      setIsEdit(false);
-    }
+    addDesc(cardDesc);
+    setIsEdit(false);
   };
 
   return (
