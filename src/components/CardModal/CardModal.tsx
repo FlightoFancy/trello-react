@@ -14,7 +14,7 @@ interface Props {
   findCard: (id: string) => ICard | undefined;
   addDesc: (description: string) => void;
   editCardName: (titleCard: string) => void;
-  createComment: (newComm: IComment) => void;
+  createComment: (newComment: string) => void;
   comments: IComment[];
   removeComment: (id: string) => void;
   userName: string;

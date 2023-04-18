@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+import { v4 as uuidv4 } from "uuid";
 import { ICard, IColumn, IComment } from "types";
 import styled from "styled-components";
 import { CardModal, Column, Title } from "components";
@@ -31,7 +32,12 @@ export const Board: React.FC<Props> = ({ userName }) => {
     setIsModalActive(true);
   };
 
-  const createCard = (newCard: ICard) => {
+  const createCard = (columnId: string, newCardTitle: string) => {
+    const newCard: ICard = {
+      id: uuidv4(),
+      title: newCardTitle,
+      columnId: columnId,
+    };
     setCards([...cards, newCard]);
     cardRepository.addItem(cards, newCard);
   };
@@ -80,7 +86,13 @@ export const Board: React.FC<Props> = ({ userName }) => {
     }
   };
 
-  const createComment = (newComm: IComment) => {
+  const createComment = (newComment: string) => {
+    const newComm: IComment = {
+      id: uuidv4(),
+      cardId: cardId,
+      comment: newComment,
+      author: userName,
+    };
     setComments([...comments, newComm]);
     commentRepository.addItem(comments, newComm);
   };

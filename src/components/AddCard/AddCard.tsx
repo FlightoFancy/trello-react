@@ -1,12 +1,10 @@
 import { useState } from "react";
 
-import { v4 as uuidv4 } from "uuid";
 import styled from "styled-components";
-import { ICard } from "types";
 import { Button, Textarea } from "ui";
 
 interface Props {
-  createCard: (card: ICard) => void;
+  createCard: (columnId: string, newCardTitle: string) => void;
   columnId: string;
 }
 
@@ -25,12 +23,7 @@ export const AddCard: React.FC<Props> = ({ createCard, columnId }) => {
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     if (newCardTitle) {
-      const newCard = {
-        id: uuidv4(),
-        title: newCardTitle,
-        columnId: columnId,
-      };
-      createCard(newCard);
+      createCard(columnId, newCardTitle);
       setIsAddCardFormVisible(false);
     }
     setNewCardTitle("");

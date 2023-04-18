@@ -1,34 +1,18 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { ICard, IComment } from "types";
 import { Button, Textarea } from "ui";
-import { v4 as uuidv4 } from "uuid";
 
 interface Props {
-  createComment: (newComm: IComment) => void;
-  cardId: string;
-  findCard: (id: string) => ICard | undefined;
-  userName: string;
+  createComment: (newComment: string) => void;
 }
 
-export const AddComment: React.FC<Props> = ({
-  createComment,
-  findCard,
-  cardId,
-  userName,
-}) => {
+export const AddComment: React.FC<Props> = ({ createComment }) => {
   const [newComment, setNewComment] = useState("");
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     if (newComment) {
-      const newComm = {
-        id: uuidv4(),
-        cardId: findCard(cardId)?.id,
-        comment: newComment,
-        author: userName,
-      };
-      createComment(newComm);
+      createComment(newComment);
       setNewComment("");
     }
   };
