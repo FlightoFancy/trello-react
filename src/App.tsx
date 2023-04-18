@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { COLORS } from "styles";
 
 function App() {
-  const [name, setName] = useState("");
+  const [name, setName] = useState(localStorage.getItem("userName") || "");
 
   const showName = (name: string) => {
     setName(name);
@@ -13,9 +13,13 @@ function App() {
 
   return (
     <Container>
-      <UserModal showName={showName} />
+      {localStorage.getItem("userName") ? null : (
+        <>
+          <UserModal showName={showName} />
+        </>
+      )}
       <Header userName={name} />
-      <Board userName={name}/>
+      <Board userName={name} />
     </Container>
   );
 }

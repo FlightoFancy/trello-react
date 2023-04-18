@@ -4,7 +4,7 @@ import { AddCard, CardList } from "components";
 interface Props {
   items: ICard[];
   openModalCard: (id: string) => void;
-  createCard: (card: ICard) => void;
+  createCard: (columnId: string, newCardTitle: string) => void;
   findCountComments: (id: string) => number | undefined;
   columnId: string;
   deleteCard: (id: string) => void;

@@ -1,18 +1,24 @@
 import { useState } from "react";
 
+import { v4 as uuidv4 } from "uuid";
 import { ICard, IColumn, IComment } from "types";
 import styled from "styled-components";
 import { CardModal, Column, Title } from "components";
 import { COLORS } from "styles";
 import { INITIAL_COLUMNS } from "constants/mock";
+import { cardRepository, commentRepository } from "utils/localStorageUtility";
 
 interface Props {
   userName: string;
 }
 
 export const Board: React.FC<Props> = ({ userName }) => {
-  const [cards, setCards] = useState<ICard[]>([]);
-  const [comments, setComments] = useState<IComment[]>([]);
+  const [cards, setCards] = useState<ICard[]>(
+    cardRepository.getDataLocalStorage()
+  );
+  const [comments, setComments] = useState<IComment[]>(
+    commentRepository.getDataLocalStorage()
+  );
   const [isModalActive, setIsModalActive] = useState(false);
   const [cardId, setCardId] = useState("");
   const [columns] = useState<IColumn[]>(INITIAL_COLUMNS);
@@ -26,29 +32,34 @@ export const Board: React.FC<Props> = ({ userName }) => {
     setIsModalActive(true);
   };
 
-  const createCard = (newCard: ICard) => {
+  const createCard = (columnId: string, newCardTitle: string) => {
+    const newCard: ICard = {
+      id: uuidv4(),
+      title: newCardTitle,
+      columnId: columnId,
+    };
     setCards([...cards, newCard]);
+    cardRepository.addItem(cards, newCard);
   };
 
-  const removeCard = (id: string) => {
-    setCards(cards.filter((card) => card.id !== id));
+  const removeCardFromPopup = (id: string) => {
+    deleteCard(id);
     setIsModalActive(false);
   };
 
   const addDesc = (description: string) => {
-    if (description) {
-      setCards(
-        cards.map((card) => {
-          if (card.id === cardId) {
-            return {
-              ...card,
-              description: description,
-            };
-          }
-          return card;
-        })
-      );
-    }
+    setCards(
+      cards.map((card) => {
+        if (card.id === cardId) {
+          return {
+            ...card,
+            description: description,
+          };
+        }
+        return card;
+      })
+    );
+    cardRepository.addDescCard(cards, cardId, description);
   };
 
   const editCardName = (titleCard: string) => {
@@ -64,6 +75,7 @@ export const Board: React.FC<Props> = ({ userName }) => {
           return card;
         })
       );
+      cardRepository.editCardName(cards, cardId, titleCard);
     }
   };
 
@@ -74,12 +86,20 @@ export const Board: React.FC<Props> = ({ userName }) => {
     }
   };
 
-  const createComment = (newComm: IComment) => {
+  const createComment = (newComment: string) => {
+    const newComm: IComment = {
+      id: uuidv4(),
+      cardId: cardId,
+      comment: newComment,
+      author: userName,
+    };
     setComments([...comments, newComm]);
+    commentRepository.addItem(comments, newComm);
   };
 
   const removeComment = (id: string) => {
     setComments(comments.filter((comment) => comment.id !== id));
+    commentRepository.deleteItem(comments, id);
   };
 
   const editComment = (commentNewValue: string, id: string) => {
@@ -95,6 +115,7 @@ export const Board: React.FC<Props> = ({ userName }) => {
           return comment;
         })
       );
+      commentRepository.editComment(comments, id, commentNewValue);
     }
   };
 
@@ -107,12 +128,13 @@ export const Board: React.FC<Props> = ({ userName }) => {
 
   const deleteCard = (id: string) => {
     setCards(cards.filter((card) => card.id !== id));
+    cardRepository.deleteItem(cards, id);
   };
 
   return (
     <Container>
       <CardModal
-        removeCard={removeCard}
+        removeCard={removeCardFromPopup}
         active={isModalActive}
         setActive={activeCardModal}
         cardId={cardId}

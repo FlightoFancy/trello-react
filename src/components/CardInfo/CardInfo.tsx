@@ -8,7 +8,7 @@ interface Props {
   cardId: string;
   findCard: (id: string) => ICard | undefined;
   editCardName: (titleCard: string) => void;
-  createComment: (newComm: IComment) => void;
+  createComment: (newComment: string) => void;
   comments: IComment[];
   removeComment: (id: string) => void;
   userName: string;
@@ -39,10 +39,8 @@ export const CardInfo: React.FC<Props> = ({
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    if (cardDesc) {
-      addDesc(cardDesc);
-      setIsEdit(false);
-    }
+    addDesc(cardDesc);
+    setIsEdit(false);
   };
 
   return (
@@ -77,12 +75,7 @@ export const CardInfo: React.FC<Props> = ({
           </Button>
         </div>
       )}
-      <AddComment
-        createComment={createComment}
-        cardId={cardId}
-        findCard={findCard}
-        userName={userName}
-      />
+      <AddComment createComment={createComment} />
       <CommentList
         removeComment={removeComment}
         comments={comments}
