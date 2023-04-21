@@ -6,13 +6,13 @@ type CommentState = {
   list: IComment[];
 };
 
-const initialCardState: CommentState = {
+const initialCommentState: CommentState = {
   list: [],
 };
 
 const commentSlice = createSlice({
   name: "cards",
-  initialState: initialCardState,
+  initialState: initialCommentState,
   reducers: {
     createComment(
       state,
@@ -22,28 +22,30 @@ const commentSlice = createSlice({
         cardId: string;
       }>
     ) {
-      const newComm = {
+      const newComment = {
         id: uuidv4(),
         cardId: action.payload.cardId,
         comment: action.payload.commentTitle,
         author: action.payload.userName,
       };
-      state.list.push(newComm);
+      state.list.push(newComment);
     },
     deleteComment(state, action: PayloadAction<string>) {
       state.list = state.list.filter(
         (comment) => comment.id !== action.payload
       );
     },
-    editComment( state,
-        action: PayloadAction<{ newTitle: string; id: string }>) {
-            const commentEdited = state.list.find(
-                (comment) => comment.id === action.payload.id
-              );
-              if (commentEdited) {
-                commentEdited.comment = action.payload.newTitle;
-              }
-        },
+    editComment(
+      state,
+      action: PayloadAction<{ newTitle: string; id: string }>
+    ) {
+      const commentEdited = state.list.find(
+        (comment) => comment.id === action.payload.id
+      );
+      if (commentEdited) {
+        commentEdited.comment = action.payload.newTitle;
+      }
+    },
   },
 });
 
