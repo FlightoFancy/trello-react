@@ -11,7 +11,7 @@ const initialCommentState: CommentState = {
 };
 
 const commentSlice = createSlice({
-  name: "cards",
+  name: "comments",
   initialState: initialCommentState,
   reducers: {
     createComment(
