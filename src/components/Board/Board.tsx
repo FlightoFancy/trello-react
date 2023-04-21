@@ -1,27 +1,25 @@
 import { useState } from "react";
 
-import { v4 as uuidv4 } from "uuid";
-import { ICard, IColumn, IComment } from "types";
+import { IColumn } from "types";
 import styled from "styled-components";
 import { CardModal, Column, Title } from "components";
 import { COLORS } from "styles";
 import { INITIAL_COLUMNS } from "constants/mock";
-import { cardRepository, commentRepository } from "utils/localStorageUtility";
+import { useAppDispatch, useAppSelector } from "hooks";
+import { deleteCard } from "redux/ducks/Card";
 
 interface Props {
   userName: string;
 }
 
 export const Board: React.FC<Props> = ({ userName }) => {
-  const [cards, setCards] = useState<ICard[]>(
-    cardRepository.getDataLocalStorage()
-  );
-  const [comments, setComments] = useState<IComment[]>(
-    commentRepository.getDataLocalStorage()
-  );
   const [isModalActive, setIsModalActive] = useState(false);
   const [cardId, setCardId] = useState("");
   const [columns] = useState<IColumn[]>(INITIAL_COLUMNS);
+
+  const dispatch = useAppDispatch();
+
+  const cards = useAppSelector((state) => state.cards.list);
 
   const activeCardModal = (isActive: boolean) => {
     setIsModalActive(isActive);
@@ -32,103 +30,9 @@ export const Board: React.FC<Props> = ({ userName }) => {
     setIsModalActive(true);
   };
 
-  const createCard = (columnId: string, newCardTitle: string) => {
-    const newCard: ICard = {
-      id: uuidv4(),
-      title: newCardTitle,
-      columnId: columnId,
-    };
-    setCards([...cards, newCard]);
-    cardRepository.addItem(cards, newCard);
-  };
-
   const removeCardFromPopup = (id: string) => {
-    deleteCard(id);
+    dispatch(deleteCard({ id }));
     setIsModalActive(false);
-  };
-
-  const addDesc = (description: string) => {
-    setCards(
-      cards.map((card) => {
-        if (card.id === cardId) {
-          return {
-            ...card,
-            description: description,
-          };
-        }
-        return card;
-      })
-    );
-    cardRepository.addDescCard(cards, cardId, description);
-  };
-
-  const editCardName = (titleCard: string) => {
-    if (titleCard) {
-      setCards(
-        cards.map((card) => {
-          if (card.id === cardId) {
-            return {
-              ...card,
-              title: titleCard,
-            };
-          }
-          return card;
-        })
-      );
-      cardRepository.editCardName(cards, cardId, titleCard);
-    }
-  };
-
-  const findCard = (id: string) => {
-    let card = cards.find((card) => card.id === id);
-    if (card) {
-      return card;
-    }
-  };
-
-  const createComment = (newComment: string) => {
-    const newComm: IComment = {
-      id: uuidv4(),
-      cardId: cardId,
-      comment: newComment,
-      author: userName,
-    };
-    setComments([...comments, newComm]);
-    commentRepository.addItem(comments, newComm);
-  };
-
-  const removeComment = (id: string) => {
-    setComments(comments.filter((comment) => comment.id !== id));
-    commentRepository.deleteItem(comments, id);
-  };
-
-  const editComment = (commentNewValue: string, id: string) => {
-    if (commentNewValue) {
-      setComments(
-        comments.map((comment) => {
-          if (comment.id === id) {
-            return {
-              ...comment,
-              comment: commentNewValue,
-            };
-          }
-          return comment;
-        })
-      );
-      commentRepository.editComment(comments, id, commentNewValue);
-    }
-  };
-
-  const findCountComments = (id: string) => {
-    let filteredComments = comments.filter((comment) => comment.cardId === id);
-    if (filteredComments) {
-      return filteredComments.length;
-    }
-  };
-
-  const deleteCard = (id: string) => {
-    setCards(cards.filter((card) => card.id !== id));
-    cardRepository.deleteItem(cards, id);
   };
 
   return (
@@ -138,13 +42,6 @@ export const Board: React.FC<Props> = ({ userName }) => {
         active={isModalActive}
         setActive={activeCardModal}
         cardId={cardId}
-        findCard={findCard}
-        addDesc={addDesc}
-        editCardName={editCardName}
-        createComment={createComment}
-        comments={comments}
-        removeComment={removeComment}
-        editComment={editComment}
         userName={userName}
       />
       {columns.map((column) => (
@@ -153,10 +50,7 @@ export const Board: React.FC<Props> = ({ userName }) => {
           <Column
             items={cards.filter((card) => card.columnId === column.id)}
             openModalCard={openModalCard}
-            createCard={createCard}
             columnId={column.id}
-            findCountComments={findCountComments}
-            deleteCard={deleteCard}
           />
         </BoardItem>
       ))}

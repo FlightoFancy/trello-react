@@ -2,7 +2,6 @@ import { useEffect, useRef } from "react";
 
 import { CardInfo } from "components";
 import styled from "styled-components";
-import { ICard, IComment } from "types";
 import { Button } from "ui";
 import { COLORS } from "styles";
 
@@ -11,14 +10,7 @@ interface Props {
   setActive: (isActive: boolean) => void;
   cardId: string;
   removeCard: (id: string) => void;
-  findCard: (id: string) => ICard | undefined;
-  addDesc: (description: string) => void;
-  editCardName: (titleCard: string) => void;
-  createComment: (newComment: string) => void;
-  comments: IComment[];
-  removeComment: (id: string) => void;
   userName: string;
-  editComment: (commentNewValue: string, id: string) => void;
 }
 
 export const CardModal: React.FC<Props> = ({
@@ -26,14 +18,7 @@ export const CardModal: React.FC<Props> = ({
   active,
   setActive,
   removeCard,
-  findCard,
-  addDesc,
-  editCardName,
-  createComment,
-  comments,
-  removeComment,
   userName,
-  editComment,
 }) => {
   const divRef = useRef<HTMLDivElement>(null);
 
@@ -57,19 +42,9 @@ export const CardModal: React.FC<Props> = ({
     <>
       {active && (
         <Modal ref={divRef} tabIndex={0} onKeyDown={handleKeyDown}>
-          <StyledOverlay />
+          <StyledOverlay onClick={() => setActive(false)} />
           <ModalContent>
-            <CardInfo
-              createComment={createComment}
-              editCardName={editCardName}
-              addDesc={addDesc}
-              cardId={cardId}
-              findCard={findCard}
-              comments={comments}
-              removeComment={removeComment}
-              userName={userName}
-              editComment={editComment}
-            />
+            <CardInfo cardId={cardId} userName={userName} />
             <Button variant="cross" onClick={closeModal}>
               &#10006;
             </Button>
