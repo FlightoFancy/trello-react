@@ -8,11 +8,7 @@ import { INITIAL_COLUMNS } from "constants/mock";
 import { useAppDispatch, useAppSelector } from "hooks";
 import { deleteCard } from "redux/ducks/Card";
 
-interface Props {
-  userName: string;
-}
-
-export const Board: React.FC<Props> = ({ userName }) => {
+export const Board: React.FC = () => {
   const [isModalActive, setIsModalActive] = useState(false);
   const [cardId, setCardId] = useState("");
   const [columns] = useState<IColumn[]>(INITIAL_COLUMNS);
@@ -42,7 +38,6 @@ export const Board: React.FC<Props> = ({ userName }) => {
         active={isModalActive}
         setActive={activeCardModal}
         cardId={cardId}
-        userName={userName}
       />
       {columns.map((column) => (
         <BoardItem key={column.id}>

@@ -10,7 +10,6 @@ interface Props {
   setActive: (isActive: boolean) => void;
   cardId: string;
   removeCard: (id: string) => void;
-  userName: string;
 }
 
 export const CardModal: React.FC<Props> = ({
@@ -18,7 +17,6 @@ export const CardModal: React.FC<Props> = ({
   active,
   setActive,
   removeCard,
-  userName,
 }) => {
   const divRef = useRef<HTMLDivElement>(null);
 
@@ -44,7 +42,7 @@ export const CardModal: React.FC<Props> = ({
         <Modal ref={divRef} tabIndex={0} onKeyDown={handleKeyDown}>
           <StyledOverlay onClick={() => setActive(false)} />
           <ModalContent>
-            <CardInfo cardId={cardId} userName={userName} />
+            <CardInfo cardId={cardId}/>
             <Button variant="cross" onClick={closeModal}>
               &#10006;
             </Button>

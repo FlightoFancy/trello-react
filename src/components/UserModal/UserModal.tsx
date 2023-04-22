@@ -1,21 +1,21 @@
+import { useAppDispatch } from "hooks";
 import { useState } from "react";
+import { createUser } from "redux/ducks/User";
 import styled from "styled-components";
 import { COLORS } from "styles";
 import { Button, Input } from "ui";
 
-interface Props {
-  showName: (name: string) => void;
-}
-
-export const UserModal: React.FC<Props> = ({ showName }) => {
+export const UserModal: React.FC = () => {
   const [isModalUserOpen, setIsModalUserOpen] = useState(true);
   const [userName, setUserName] = useState("");
+
+  const dispatch = useAppDispatch();
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     if (userName) {
-      showName(userName);
-      localStorage.setItem("userName", userName);
+      const isAuth = true;
+      dispatch(createUser({ userName, isAuth }));
       setIsModalUserOpen(false);
     }
   };

@@ -1,11 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import cardReducer from "./ducks/Card/cardSlice";
-import commentReducer from "./ducks/Comment/commentSlice";
+import { CardReducer, CommentReducer, UserReducer } from "./ducks";
 
 const store = configureStore({
   reducer: {
-    cards: cardReducer,
-    comments: commentReducer,
+    cards: CardReducer,
+    comments: CommentReducer,
+    user: UserReducer,
   },
 });
 

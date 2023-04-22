@@ -1,18 +1,18 @@
-import { useAppDispatch } from "hooks";
+import { useAppDispatch, useAppSelector } from "hooks";
 import { useState } from "react";
 import { createComment } from "redux/ducks/Comment";
 import styled from "styled-components";
 import { Button, Textarea } from "ui";
 
 interface Props {
-  userName: string;
   cardId: string;
 }
 
-export const AddComment: React.FC<Props> = ({ userName, cardId }) => {
+export const AddComment: React.FC<Props> = ({ cardId }) => {
   const [newComment, setNewComment] = useState("");
 
   const dispatch = useAppDispatch();
+  const userName = useAppSelector((state) => state.user.user.name);
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();

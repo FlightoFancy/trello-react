@@ -6,10 +6,9 @@ import { addDescription } from "redux/ducks/Card";
 
 interface Props {
   cardId: string;
-  userName: string;
 }
 
-export const CardInfo: React.FC<Props> = ({ cardId, userName }) => {
+export const CardInfo: React.FC<Props> = ({ cardId }) => {
   const [cardDesc, setCardDesc] = useState("");
   const [isEdit, setIsEdit] = useState(false);
   const dispatch = useAppDispatch();
@@ -67,8 +66,8 @@ export const CardInfo: React.FC<Props> = ({ cardId, userName }) => {
           </Button>
         </div>
       )}
-      <AddComment cardId={cardId} userName={userName} />
-      <CommentList cardId={cardId} userName={userName} />
+      <AddComment cardId={cardId} />
+      <CommentList cardId={cardId} />
     </>
   );
 };

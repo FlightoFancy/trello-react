@@ -1,25 +1,17 @@
-import { useState } from "react";
-
 import { Board, Header, UserModal } from "components";
 import styled from "styled-components";
 import { COLORS } from "styles";
 
 function App() {
-  const [name, setName] = useState(localStorage.getItem("userName") || "");
-
-  const showName = (name: string) => {
-    setName(name);
-  };
-
   return (
     <Container>
-      {localStorage.getItem("userName") ? null : (
+      {
         <>
-          <UserModal showName={showName} />
+          <UserModal />
         </>
-      )}
-      <Header userName={name} />
-      <Board userName={name} />
+      }
+      <Header />
+      <Board />
     </Container>
   );
 }
