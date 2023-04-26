@@ -2,7 +2,8 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import { createGlobalStyle } from "styled-components";
 import { Provider } from "react-redux";
-import store from "redux/store";
+import store, { persistor } from "redux/store";
+import { PersistGate } from "redux-persist/integration/react";
 
 const Global = createGlobalStyle`
 *{
@@ -17,7 +18,9 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <Provider store={store}>
-    <Global />
-    <App />
+    <PersistGate loading={null} persistor={persistor}>
+      <Global />
+      <App />
+    </PersistGate>
   </Provider>
 );
