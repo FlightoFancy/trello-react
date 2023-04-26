@@ -1,16 +1,19 @@
+import { useAppDispatch } from "hooks";
 import { useState } from "react";
+import { createCard } from "redux/ducks/Card/cardSlice";
 
 import styled from "styled-components";
 import { Button, Textarea } from "ui";
 
 interface Props {
-  createCard: (columnId: string, newCardTitle: string) => void;
   columnId: string;
 }
 
-export const AddCard: React.FC<Props> = ({ createCard, columnId }) => {
+export const AddCard: React.FC<Props> = ({ columnId }) => {
   const [isAddCardFormVisible, setIsAddCardFormVisible] = useState(false);
   const [newCardTitle, setNewCardTitle] = useState("");
+
+  const dispatch = useAppDispatch();
 
   const openForm = () => {
     setIsAddCardFormVisible(true);
@@ -23,7 +26,8 @@ export const AddCard: React.FC<Props> = ({ createCard, columnId }) => {
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     if (newCardTitle) {
-      createCard(columnId, newCardTitle);
+      const cardTitle = newCardTitle;
+      dispatch(createCard({ cardTitle, columnId }));
       setIsAddCardFormVisible(false);
     }
     setNewCardTitle("");

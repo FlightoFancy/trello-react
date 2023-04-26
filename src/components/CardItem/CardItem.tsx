@@ -1,3 +1,5 @@
+import { useAppDispatch, useAppSelector } from "hooks";
+import { deleteCard } from "redux/ducks/Card";
 import styled from "styled-components";
 import { COLORS } from "styles";
 import { ICard } from "types";
@@ -5,24 +7,25 @@ import { Button } from "ui";
 
 interface Props extends ICard {
   openModalCard: (id: string) => void;
-  findCountComments: (id: string) => number | undefined;
-  deleteCard: (id: string) => void;
 }
 
-export const CardItem: React.FC<Props> = ({
-  id,
-  title,
-  openModalCard,
-  findCountComments,
-  deleteCard,
-}) => {
+export const CardItem: React.FC<Props> = ({ id, title, openModalCard }) => {
+  const dispatch = useAppDispatch();
+  const comments = useAppSelector((state) => state.comments.list);
+
+  const findCountComments = (id: string) => {
+    let filteredComments = comments.filter((comment) => comment.cardId === id);
+    if (filteredComments) {
+      return filteredComments.length;
+    }
+  };
   return (
     <Root>
       <Card onClick={() => openModalCard(id)}>
         <Span>{title}</Span>
         <span>&#9993; {findCountComments(id)}</span>
       </Card>
-      <Button variant="close" onClick={() => deleteCard(id)}>
+      <Button variant="close" onClick={() => dispatch(deleteCard({ id }))}>
         &#10006;
       </Button>
     </Root>

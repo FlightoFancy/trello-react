@@ -1,33 +1,19 @@
 import { useState } from "react";
 import { AddComment, CardName, CommentList } from "components";
-import { ICard, IComment } from "types";
 import { Button, Textarea } from "ui";
+import { useAppDispatch, useAppSelector } from "hooks";
+import { addDescription } from "redux/ducks/Card";
 
 interface Props {
-  addDesc: (description: string) => void;
   cardId: string;
-  findCard: (id: string) => ICard | undefined;
-  editCardName: (titleCard: string) => void;
-  createComment: (newComment: string) => void;
-  comments: IComment[];
-  removeComment: (id: string) => void;
-  userName: string;
-  editComment: (commentNewValue: string, id: string) => void;
 }
 
-export const CardInfo: React.FC<Props> = ({
-  addDesc,
-  cardId,
-  findCard,
-  editCardName,
-  createComment,
-  comments,
-  removeComment,
-  userName,
-  editComment,
-}) => {
+export const CardInfo: React.FC<Props> = ({ cardId }) => {
   const [cardDesc, setCardDesc] = useState("");
   const [isEdit, setIsEdit] = useState(false);
+  const dispatch = useAppDispatch();
+
+  const cards = useAppSelector((state) => state.cards.list);
 
   const cancelEditText = () => {
     setIsEdit(false);
@@ -39,17 +25,22 @@ export const CardInfo: React.FC<Props> = ({
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    addDesc(cardDesc);
+    const description = cardDesc;
+    const id = cardId;
+    dispatch(addDescription({ description, id }));
     setIsEdit(false);
+  };
+
+  const findCardDesc = (id: string) => {
+    let card = cards.find((card) => card.id === id);
+    if (card) {
+      return card.description;
+    }
   };
 
   return (
     <>
-      <CardName
-        editCardName={editCardName}
-        findCard={findCard}
-        cardId={cardId}
-      />
+      <CardName cardId={cardId} />
       <span>Описание:</span>
       {isEdit ? (
         <form onSubmit={handleSubmit}>
@@ -69,20 +60,14 @@ export const CardInfo: React.FC<Props> = ({
         </form>
       ) : (
         <div>
-          <p>{findCard(cardId)?.description}</p>
+          <p>{findCardDesc(cardId)}</p>
           <Button variant="small" onClick={handleEditDescription}>
             Редактировать
           </Button>
         </div>
       )}
-      <AddComment createComment={createComment} />
-      <CommentList
-        removeComment={removeComment}
-        comments={comments}
-        cardId={cardId}
-        userName={userName}
-        editComment={editComment}
-      />
+      <AddComment cardId={cardId} />
+      <CommentList cardId={cardId} />
     </>
   );
 };

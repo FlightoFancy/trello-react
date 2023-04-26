@@ -1,28 +1,23 @@
+import { useAppDispatch, useAppSelector } from "hooks";
 import { useState } from "react";
+import { deleteComment, editComment } from "redux/ducks/Comment";
 import styled from "styled-components";
 import { COLORS } from "styles";
 import { IComment } from "types";
 import { Button, Textarea } from "ui";
 
-interface Props extends IComment {
-  removeComment: (id: string) => void;
-  userName: string;
-  editComment: (commentNewValue: string, id: string) => void;
-}
+interface Props extends IComment {}
 
-export const CommentItem: React.FC<Props> = ({
-  id,
-  comment,
-  removeComment,
-  userName,
-  editComment,
-}) => {
+export const CommentItem: React.FC<Props> = ({ id, comment }) => {
   const [isEdit, setIsEdit] = useState(false);
   const [commentValue, setCommentValue] = useState("");
+  const dispatch = useAppDispatch();
+  const userName = useAppSelector((state) => state.user.user.name);
 
   const handleEditComment = () => {
     setIsEdit(!isEdit);
-    editComment(commentValue, id);
+    const newTitle = commentValue;
+    dispatch(editComment({ newTitle, id }));
   };
 
   return (
@@ -46,7 +41,7 @@ export const CommentItem: React.FC<Props> = ({
         <Button onClick={() => handleEditComment()} variant="small">
           изменить
         </Button>
-        <Button onClick={() => removeComment(id)} variant="small">
+        <Button onClick={() => dispatch(deleteComment(id))} variant="small">
           удалить
         </Button>
       </div>

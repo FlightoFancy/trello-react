@@ -1,32 +1,18 @@
 import { CommentItem } from "components";
-import { IComment } from "types";
+import { useAppSelector } from "hooks";
 
 interface Props {
-  comments: IComment[];
   cardId: string;
-  removeComment: (id: string) => void;
-  userName: string;
-  editComment: (commentNewValue: string, id: string) => void;
 }
-export const CommentList: React.FC<Props> = ({
-  comments,
-  cardId,
-  removeComment,
-  userName,
-  editComment
-}) => {
+export const CommentList: React.FC<Props> = ({ cardId }) => {
+  const comments = useAppSelector((state) => state.comments.list);
+
   return (
     <>
       {comments
         .filter((comment) => comment.cardId === cardId)
         .map((comment) => (
-          <CommentItem
-            key={comment.id}
-            removeComment={removeComment}
-            userName={userName}
-            editComment={editComment}
-            {...comment}
-          />
+          <CommentItem key={comment.id} {...comment} />
         ))}
     </>
   );

@@ -1,37 +1,48 @@
+import { useAppDispatch, useAppSelector } from "hooks";
 import { useState } from "react";
+import { editCardName } from "redux/ducks/Card";
 import styled from "styled-components";
-import { ICard } from "types";
 import { Input } from "ui";
 
 interface Props {
-  findCard: (id: string) => ICard | undefined;
   cardId: string;
-  editCardName: (titleCard: string) => void;
 }
 
-export const CardName: React.FC<Props> = ({
-  findCard,
-  cardId,
-  editCardName,
-}) => {
+export const CardName: React.FC<Props> = ({ cardId }) => {
   const [isEdit, setIsEdit] = useState(false);
   const [cardTitle, setCardTitle] = useState("");
+  const dispatch = useAppDispatch();
+  const cards = useAppSelector((state) => state.cards.list);
 
-  const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    setCardTitle(e.target.value);
-  };
   const handleBlur: React.FocusEventHandler<HTMLInputElement> = () => {
+    if (cardTitle) {
+      const newTitle = cardTitle;
+      const id = cardId;
+      dispatch(editCardName({ newTitle, id }));
+    }
     setIsEdit(false);
-    editCardName(cardTitle);
   };
+  
   const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
     if (e.key === "Enter") {
-      setIsEdit(false);
-      editCardName(cardTitle);
+      if (cardTitle) {
+        const newTitle = cardTitle;
+        const id = cardId;
+        dispatch(editCardName({ newTitle, id }));
+        setIsEdit(false);
+      }
     }
   };
+
   const editTitle = () => {
     setIsEdit(true);
+  };
+
+  const findCardTitle = (id: string) => {
+    let card = cards.find((card) => card.id === id);
+    if (card) {
+      return card.title;
+    }
   };
 
   return (
@@ -40,14 +51,16 @@ export const CardName: React.FC<Props> = ({
       {isEdit ? (
         <Input
           value={cardTitle}
-          onChange={handleChange}
+          onChange={(e) => {
+            setCardTitle(e.target.value);
+          }}
           onBlur={handleBlur}
           onKeyDown={handleKeyDown}
           autoFocus
         />
       ) : (
         <>
-          <span onClick={editTitle}>{findCard(cardId)?.title}</span>
+          <span onClick={editTitle}>{findCardTitle(cardId)}</span>
         </>
       )}
     </Root>
