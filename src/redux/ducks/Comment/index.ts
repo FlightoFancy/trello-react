@@ -3,4 +3,5 @@ export {
   createComment,
   deleteComment,
   editComment,
+  clearCommentState,
 } from "./commentSlice";

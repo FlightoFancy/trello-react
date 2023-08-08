@@ -46,9 +46,12 @@ const commentSlice = createSlice({
         commentEdited.comment = action.payload.newTitle;
       }
     },
+    clearCommentState(state) {
+      state.list = [];
+    },
   },
 });
 
-export const { createComment, deleteComment, editComment } =
+export const { createComment, deleteComment, editComment, clearCommentState } =
   commentSlice.actions;
 export default commentSlice.reducer;
