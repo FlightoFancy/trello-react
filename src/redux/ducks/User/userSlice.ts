@@ -26,8 +26,15 @@ const userSlice = createSlice({
       };
       return state;
     },
+    exitUser(state) {
+      state.user = {
+        name: "",
+        isAuth: false,
+      };
+      return state;
+    },
   },
 });
 
-export const { createUser } = userSlice.actions;
+export const { createUser, exitUser } = userSlice.actions;
 export default userSlice.reducer;

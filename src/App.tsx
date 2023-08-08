@@ -1,15 +1,14 @@
 import { Board, Header, UserModal } from "components";
+import { useAppSelector } from "hooks";
 import styled from "styled-components";
 import { COLORS } from "styles";
 
 function App() {
+  const isUserAuth = useAppSelector((state) => state.user.user.isAuth);
+
   return (
     <Container>
-      {
-        <>
-          <UserModal />
-        </>
-      }
+      {isUserAuth ? null : <UserModal />}
       <Header />
       <Board />
     </Container>
