@@ -50,9 +50,17 @@ const cardSlice = createSlice({
         cardEdited.description = action.payload.description;
       }
     },
+    clearCardState(state) {
+      state.list = [];
+    },
   },
 });
 
-export const { createCard, deleteCard, editCardName, addDescription } =
-  cardSlice.actions;
+export const {
+  createCard,
+  deleteCard,
+  editCardName,
+  addDescription,
+  clearCardState,
+} = cardSlice.actions;
 export default cardSlice.reducer;
