@@ -1,7 +1,7 @@
 export { CommentList } from "./CommentList";
 export { CommentItem } from "./CommentItem";
 export { AddComment } from "./AddComment";
-export { Column } from "./Column";
+export { Column } from "./column";
 export { AddCard } from "./AddCard";
 export { CardInfo } from "./CardInfo";
 export { UserModal } from "./UserModal";
