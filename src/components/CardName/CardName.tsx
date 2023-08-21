@@ -1,18 +1,25 @@
+import { Input } from "antd";
 import { useAppDispatch, useAppSelector } from "hooks";
 import { useState } from "react";
 import { editCardName } from "redux/ducks/Card";
 import styled from "styled-components";
-import { Input } from "ui";
 
 interface Props {
   cardId: string;
 }
 
 export const CardName: React.FC<Props> = ({ cardId }) => {
-  const [isEdit, setIsEdit] = useState(false);
-  const [cardTitle, setCardTitle] = useState("");
-  const dispatch = useAppDispatch();
   const cards = useAppSelector((state) => state.cards.list);
+
+  const findCardTitle = (id: string) => {
+    let card = cards.find((card) => card.id === id);
+    if (card) {
+      return card.title;
+    }
+  };
+  const [isEdit, setIsEdit] = useState(false);
+  const [cardTitle, setCardTitle] = useState(findCardTitle(cardId));
+  const dispatch = useAppDispatch();
 
   const handleBlur: React.FocusEventHandler<HTMLInputElement> = () => {
     if (cardTitle) {
@@ -22,7 +29,7 @@ export const CardName: React.FC<Props> = ({ cardId }) => {
     }
     setIsEdit(false);
   };
-  
+
   const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
     if (e.key === "Enter") {
       if (cardTitle) {
@@ -36,13 +43,6 @@ export const CardName: React.FC<Props> = ({ cardId }) => {
 
   const editTitle = () => {
     setIsEdit(true);
-  };
-
-  const findCardTitle = (id: string) => {
-    let card = cards.find((card) => card.id === id);
-    if (card) {
-      return card.title;
-    }
   };
 
   return (

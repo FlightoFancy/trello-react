@@ -1,32 +1,35 @@
+import { Button, Space } from "antd";
+import TextArea from "antd/es/input/TextArea";
 import { useAppDispatch, useAppSelector } from "hooks";
 import { useState } from "react";
 import { deleteComment, editComment } from "redux/ducks/Comment";
 import styled from "styled-components";
 import { COLORS } from "styles";
 import { IComment } from "types";
-import { Button, Textarea } from "ui";
 
 interface Props extends IComment {}
 
 export const CommentItem: React.FC<Props> = ({ id, comment }) => {
   const [isEdit, setIsEdit] = useState(false);
-  const [commentValue, setCommentValue] = useState("");
+  const [commentValue, setCommentValue] = useState(comment);
   const dispatch = useAppDispatch();
   const userName = useAppSelector((state) => state.user.user.name);
 
   const handleEditComment = () => {
     setIsEdit(!isEdit);
-    const newTitle = commentValue;
-    dispatch(editComment({ newTitle, id }));
+    if (commentValue) {
+      const newTitle = commentValue;
+      dispatch(editComment({ newTitle, id }));
+    }
   };
 
   return (
     <Root>
-      <div>Автор: {userName}</div>
-      <Div>
+      <Space direction="vertical">
+        <div>Автор: {userName}</div>
         {isEdit ? (
           <>
-            <Textarea
+            <TextArea
               value={commentValue}
               rows={2}
               onChange={(e) => setCommentValue(e.target.value)}
@@ -34,17 +37,19 @@ export const CommentItem: React.FC<Props> = ({ id, comment }) => {
             />
           </>
         ) : (
-          <span>{comment}</span>
+          <Div>
+            <span>{comment}</span>
+          </Div>
         )}
-      </Div>
-      <div>
-        <Button onClick={() => handleEditComment()} variant="small">
-          изменить
-        </Button>
-        <Button onClick={() => dispatch(deleteComment(id))} variant="small">
-          удалить
-        </Button>
-      </div>
+        <div>
+          <Space>
+            <Button onClick={() => handleEditComment()} type="primary">
+              изменить
+            </Button>
+            <Button onClick={() => dispatch(deleteComment(id))}>удалить</Button>
+          </Space>
+        </div>
+      </Space>
     </Root>
   );
 };

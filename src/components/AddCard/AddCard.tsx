@@ -1,19 +1,42 @@
+import { Button, Form, Space } from "antd";
+import TextArea from "antd/es/input/TextArea";
 import { useAppDispatch } from "hooks";
 import { useState } from "react";
 import { createCard } from "redux/ducks/Card/cardSlice";
-
-import styled from "styled-components";
-import { Button, Textarea } from "ui";
+import { useForm, Controller, SubmitHandler } from "react-hook-form";
 
 interface Props {
   columnId: string;
 }
 
+type FieldType = {
+  cardName?: string;
+};
+
+interface IFormInput {
+  cardName: string;
+}
+
 export const AddCard: React.FC<Props> = ({ columnId }) => {
+  const { control, handleSubmit } = useForm({
+    defaultValues: {
+      cardName: "",
+    },
+  });
+
   const [isAddCardFormVisible, setIsAddCardFormVisible] = useState(false);
-  const [newCardTitle, setNewCardTitle] = useState("");
 
   const dispatch = useAppDispatch();
+
+  const onSubmit: SubmitHandler<IFormInput> = (data) => {
+    const cardTitle = data.cardName;
+    dispatch(createCard({ cardTitle, columnId }));
+    setIsAddCardFormVisible(false);
+  };
+
+  const onFinishFailed = (errorInfo: any) => {
+    console.log("Failed:", errorInfo);
+  };
 
   const openForm = () => {
     setIsAddCardFormVisible(true);
@@ -23,46 +46,48 @@ export const AddCard: React.FC<Props> = ({ columnId }) => {
     setIsAddCardFormVisible(false);
   };
 
-  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault();
-    if (newCardTitle) {
-      const cardTitle = newCardTitle;
-      dispatch(createCard({ cardTitle, columnId }));
-      setIsAddCardFormVisible(false);
-    }
-    setNewCardTitle("");
-  };
-
   return (
     <>
       {isAddCardFormVisible ? (
-        <Container>
-          <form onSubmit={handleSubmit}>
-            <Textarea
-              value={newCardTitle}
-              placeholder="Введите заголовок карточки"
-              autoFocus
-              rows={3}
-              onChange={(e) => setNewCardTitle(e.target.value)}
-            />
-            <Button type="submit" variant="addCard">
+        <Form
+          onFinish={handleSubmit(onSubmit)}
+          onFinishFailed={onFinishFailed}
+          name="addCardForm"
+          initialValues={{ remember: true }}
+        >
+          <Controller
+            name="cardName"
+            control={control}
+            render={({ field }) => (
+              <Form.Item<FieldType>
+                name="cardName"
+                rules={[
+                  {
+                    required: true,
+                    message: "Введите заголовок карточки!",
+                  },
+                ]}
+              >
+                <TextArea
+                  placeholder="Введите заголовок карточки"
+                  rows={3}
+                  {...field}
+                />
+              </Form.Item>
+            )}
+          />
+          <Space>
+            <Button htmlType="submit" type="primary">
               Добавить карточку
             </Button>
-            <Button type="reset" variant="close" onClick={closeForm}>
-              &#10006;
-            </Button>
-          </form>
-        </Container>
+            <Button onClick={closeForm}>&#10006;</Button>
+          </Space>
+        </Form>
       ) : (
-        <Button variant="center" onClick={openForm}>
+        <Button type="primary" onClick={openForm}>
           + Добавить карточку
         </Button>
       )}
     </>
   );
 };
-
-const Container = styled.div`
-  width: 90%;
-  margin: 5px auto;
-`;
