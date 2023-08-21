@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { Input } from "ui";
-
 import { ColumnTitle } from "./ColumnTitle";
+import { Input } from "antd";
 
 interface Props {
   name: string;

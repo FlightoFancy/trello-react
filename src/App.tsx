@@ -1,3 +1,4 @@
+import { Divider } from "antd";
 import { Board, Header, UserModal } from "components";
 import { useAppSelector } from "hooks";
 import styled from "styled-components";
@@ -10,6 +11,7 @@ function App() {
     <Container>
       {isUserAuth ? null : <UserModal />}
       <Header />
+      <Divider />
       <Board />
     </Container>
   );
@@ -25,5 +27,5 @@ const Container = styled.div`
   background-color: ${COLORS.blue};
   max-width: 100%;
   min-height: 100vh;
-  padding: 2em;
+  padding: 1.5em;
 `;

@@ -11,7 +11,7 @@ export const ColumnTitle: React.FC<Props> = ({ title, onClick }) => {
 };
 
 const Root = styled.h3`
-  color: ${COLORS.white};
+  color: ${COLORS.greyblue};
   text-align: center;
   margin-bottom: 0.7em;
 `;
