@@ -59,15 +59,17 @@ export const UserModal: React.FC = () => {
                 label="Имя пользователя:"
                 name="username"
                 rules={[
-                  { required: true, message: "Please input your username!" },
+                  { required: true, message: "Пожалуйста, введите ваше имя!" },
                 ]}
               >
                 <Input {...field} />
               </Form.Item>
             )}
           />
-          <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-            <Button type="primary" htmlType="submit">
+          <Form.Item
+            wrapperCol={{ md: { offset: 4, span: 16 }, xs: { span: 24 } }}
+          >
+            <Button type="primary" htmlType="submit" block>
               Сохранить
             </Button>
           </Form.Item>
