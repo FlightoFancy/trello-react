@@ -26,12 +26,13 @@ export const CardItem: React.FC<Props> = ({ id, title, openModalCard }) => {
           size="small"
           title={title}
           hoverable={true}
+          style={{ maxWidth: 200 }}
         >
           <span>&#9993; {findCountComments(id)}</span>
         </Card>
       </Col>
       <Col span={4} offset={1}>
-        <Button onClick={() => dispatch(deleteCard({ id }))}>
+        <Button danger onClick={() => dispatch(deleteCard({ id }))}>
           <DeleteOutlined rev={undefined} />
         </Button>
       </Col>

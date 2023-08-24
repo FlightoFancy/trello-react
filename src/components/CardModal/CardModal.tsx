@@ -22,7 +22,7 @@ export const CardModal: React.FC<Props> = ({
     <>
       <Modal open={active} onCancel={handleCancel} footer={null}>
         <CardInfo cardId={cardId} />
-        <Button onClick={() => removeCard(cardId)}>Удалить карточку</Button>
+        <Button danger onClick={() => removeCard(cardId)}>Удалить карточку</Button>
       </Modal>
     </>
   );

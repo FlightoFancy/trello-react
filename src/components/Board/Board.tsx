@@ -30,7 +30,7 @@ export const Board: React.FC = () => {
   };
 
   return (
-    <Row justify="center" gutter={[{ xs: 20, sm: 32, md: 32, lg: 40 }, 20]}>
+    <Row justify="center" gutter={[{ xs: 24, sm: 45, md: 20, lg: 50 }, 20]}>
       <CardModal
         removeCard={removeCardFromPopup}
         active={isModalActive}
@@ -38,7 +38,7 @@ export const Board: React.FC = () => {
         cardId={cardId}
       />
       {columns.map((column) => (
-        <Col sm={8} lg={6} key={column.id}>
+        <Col sm={12} md={8} lg={6} key={column.id}>
           <Space>
             <Space direction="vertical">
               <Title titleValue={column.title} name={column.id} />

@@ -59,9 +59,15 @@ export const CardInfo: React.FC<Props> = ({ cardId }) => {
   const onSetFieldValue = () => {
     form.setFieldValue("cardDescription", findCardDesc(cardId));
   };
+  const findCardTitle = (id: string) => {
+    let card = cards.find((card) => card.id === id);
+    if (card) {
+      return card.title;
+    }
+  };
   return (
     <>
-      <CardName cardId={cardId} />
+      <CardName cardId={cardId} findCardTitle={findCardTitle} />
       <span>Описание:</span>
       {isEdit ? (
         <Form
