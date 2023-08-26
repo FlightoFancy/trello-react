@@ -9,9 +9,6 @@ import styled from "styled-components";
 interface Props {
   cardId: string;
 }
-type FieldType = {
-  cardComments?: string;
-};
 
 interface IFormInput {
   cardComments: string;
@@ -54,7 +51,7 @@ export const AddComment: React.FC<Props> = ({ cardId }) => {
           name="cardComments"
           control={control}
           render={({ field }) => (
-            <Form.Item<FieldType>
+            <Form.Item
               name="cardComments"
               rules={[
                 {

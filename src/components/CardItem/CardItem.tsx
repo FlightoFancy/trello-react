@@ -2,7 +2,7 @@ import { useAppDispatch, useAppSelector } from "hooks";
 import { deleteCard } from "redux/ducks/Card";
 import { ICard } from "types";
 import { Card, Button, Row, Col } from "antd";
-import { DeleteOutlined } from "@ant-design/icons";
+import { CommentOutlined, DeleteOutlined } from "@ant-design/icons";
 
 interface Props extends ICard {
   openModalCard: (id: string) => void;
@@ -28,7 +28,9 @@ export const CardItem: React.FC<Props> = ({ id, title, openModalCard }) => {
           hoverable={true}
           style={{ maxWidth: 200 }}
         >
-          <span>&#9993; {findCountComments(id)}</span>
+          <span>
+            <CommentOutlined rev={undefined} /> {findCountComments(id)}
+          </span>
         </Card>
       </Col>
       <Col span={4} offset={1}>

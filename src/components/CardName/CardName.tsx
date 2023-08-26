@@ -1,5 +1,5 @@
 import { Input, Form } from "antd";
-import { useAppDispatch, useAppSelector } from "hooks";
+import { useAppDispatch } from "hooks";
 import { useState } from "react";
 import { editCardName } from "redux/ducks/Card";
 import styled from "styled-components";
@@ -22,49 +22,25 @@ export const CardName: React.FC<Props> = ({ cardId, findCardTitle }) => {
   });
   const [form] = Form.useForm();
   const [isEdit, setIsEdit] = useState(false);
-
   const dispatch = useAppDispatch();
 
-  const onSubmit: SubmitHandler<IFormInput> = (data) => {
-    const newTitle = data.cardNameEdit;
+  const onSubmit: SubmitHandler<IFormInput> = () => {
+    const newTitle = form.getFieldValue("cardNameEdit");
     const id = cardId;
-    dispatch(editCardName({ newTitle, id }));
-    setIsEdit(false);
-    console.log(data);
+    if (newTitle) {
+      dispatch(editCardName({ newTitle, id }));
+      setIsEdit(false);
+    }
   };
 
   const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);
   };
 
-  // const onSetFieldValue = () => {
-  //   form.setFieldValue("cardName", findCardTitle(cardId));
-  // };
-  // const handleBlur: React.FocusEventHandler<HTMLInputElement> = () => {
-  //   if (cardTitle) {
-  //     const newTitle = cardTitle;
-  //     const id = cardId;F
-  //     dispatch(editCardName({ newTitle, id }));
-  //   }
-  //   setIsEdit(false);
-  // };
-
-  // const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
-  //   if (e.key === "Enter") {
-  //     if (cardTitle) {
-  //       const newTitle = cardTitle;
-  //       const id = cardId;
-  //       dispatch(editCardName({ newTitle, id }));
-  //     }
-  //     setIsEdit(false);
-  //   }
-  // };
-
   const editTitle = () => {
     setIsEdit(true);
-    // onSetFieldValue();
+    form.setFieldValue("cardNameEdit", findCardTitle(cardId));
   };
-
   return (
     <Root>
       <span>Название:</span>
@@ -72,15 +48,17 @@ export const CardName: React.FC<Props> = ({ cardId, findCardTitle }) => {
         <Form
           onFinish={handleSubmit(onSubmit)}
           onFinishFailed={onFinishFailed}
-          name="EditCardName"
+          name="CardName"
           form={form}
           initialValues={{ remember: true }}
+          onBlur={handleSubmit(onSubmit)}
         >
           <Controller
             name="cardNameEdit"
             control={control}
             render={({ field }) => (
               <Form.Item
+                name="cardNameEdit"
                 rules={[
                   {
                     required: true,
@@ -88,7 +66,7 @@ export const CardName: React.FC<Props> = ({ cardId, findCardTitle }) => {
                   },
                 ]}
               >
-                <Input {...field} />
+                <Input {...field} autoFocus />
               </Form.Item>
             )}
           />

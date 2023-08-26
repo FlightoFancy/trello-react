@@ -1,7 +1,7 @@
-import { Button, Space } from "antd";
+import { Button, InputRef, Space } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { useAppDispatch, useAppSelector } from "hooks";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { deleteComment, editComment } from "redux/ducks/Comment";
 import styled from "styled-components";
 import { COLORS } from "styles";
@@ -14,9 +14,15 @@ export const CommentItem: React.FC<Props> = ({ id, comment }) => {
   const [commentValue, setCommentValue] = useState(comment);
   const dispatch = useAppDispatch();
   const userName = useAppSelector((state) => state.user.user.name);
+  const textAreaRef = useRef<InputRef>(null);
 
   const handleEditComment = () => {
     setIsEdit(!isEdit);
+    setTimeout(() => {
+      textAreaRef.current!.focus({
+        cursor: "end",
+      });
+    });
     if (commentValue) {
       const newTitle = commentValue;
       dispatch(editComment({ newTitle, id }));
@@ -33,7 +39,7 @@ export const CommentItem: React.FC<Props> = ({ id, comment }) => {
               value={commentValue}
               rows={2}
               onChange={(e) => setCommentValue(e.target.value)}
-              autoFocus
+              ref={textAreaRef}
             />
           </>
         ) : (

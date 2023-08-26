@@ -9,10 +9,6 @@ interface Props {
   columnId: string;
 }
 
-type FieldType = {
-  cardName?: string;
-};
-
 interface IFormInput {
   cardName: string;
 }
@@ -59,7 +55,7 @@ export const AddCard: React.FC<Props> = ({ columnId }) => {
             name="cardName"
             control={control}
             render={({ field }) => (
-              <Form.Item<FieldType>
+              <Form.Item
                 name="cardName"
                 rules={[
                   {

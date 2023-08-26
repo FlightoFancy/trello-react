@@ -1,18 +1,14 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { AddComment, CardName, CommentList } from "components";
 import { useAppDispatch, useAppSelector } from "hooks";
 import { addDescription } from "redux/ducks/Card";
-import { Button, Form, Space } from "antd";
+import { Button, Form, InputRef, Space } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 
 interface Props {
   cardId: string;
 }
-
-type FieldType = {
-  cardDescription?: string;
-};
 
 interface IFormInput {
   cardDescription: string;
@@ -28,6 +24,7 @@ export const CardInfo: React.FC<Props> = ({ cardId }) => {
   const [isEdit, setIsEdit] = useState(false);
   const dispatch = useAppDispatch();
   const cards = useAppSelector((state) => state.cards.list);
+  const textAreaRef = useRef<InputRef>(null);
 
   const cancelEditText = () => {
     setIsEdit(false);
@@ -36,6 +33,11 @@ export const CardInfo: React.FC<Props> = ({ cardId }) => {
   const handleEditDescription = () => {
     setIsEdit(true);
     onSetFieldValue();
+    setTimeout(() => {
+      textAreaRef.current!.focus({
+        cursor: "end",
+      });
+    });
   };
 
   const findCardDesc = (id: string) => {
@@ -45,11 +47,13 @@ export const CardInfo: React.FC<Props> = ({ cardId }) => {
     }
   };
 
-  const onSubmit: SubmitHandler<IFormInput> = (data) => {
-    const description = data.cardDescription;
+  const onSubmit: SubmitHandler<IFormInput> = () => {
+    const description = form.getFieldValue("cardDescription");
     const id = cardId;
-    dispatch(addDescription({ description, id }));
-    setIsEdit(false);
+    if (description) {
+      dispatch(addDescription({ description, id }));
+      setIsEdit(false);
+    }
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -59,12 +63,14 @@ export const CardInfo: React.FC<Props> = ({ cardId }) => {
   const onSetFieldValue = () => {
     form.setFieldValue("cardDescription", findCardDesc(cardId));
   };
+
   const findCardTitle = (id: string) => {
     let card = cards.find((card) => card.id === id);
     if (card) {
       return card.title;
     }
   };
+
   return (
     <>
       <CardName cardId={cardId} findCardTitle={findCardTitle} />
@@ -82,7 +88,7 @@ export const CardInfo: React.FC<Props> = ({ cardId }) => {
               name="cardDescription"
               control={control}
               render={({ field }) => (
-                <Form.Item<FieldType>
+                <Form.Item
                   name="cardDescription"
                   rules={[
                     {
@@ -94,13 +100,12 @@ export const CardInfo: React.FC<Props> = ({ cardId }) => {
                   <TextArea
                     placeholder="Добавить более подробное описание..."
                     rows={5}
-                    autoFocus
                     {...field}
+                    ref={textAreaRef}
                   />
                 </Form.Item>
               )}
             />
-
             <Space>
               <Button type="primary" htmlType="submit">
                 Сохранить
