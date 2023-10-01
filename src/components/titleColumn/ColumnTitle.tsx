@@ -1,19 +1,17 @@
-import styled from "styled-components"
+import styled from "styled-components";
+import { COLORS } from "styles";
 
-const StyledTitle = styled.h3`
-color: #FFFFFF;
-text-align: center;
-margin-bottom: 0.7em;
-`
-
-interface TitleProps {
-    title: string,
-    onClick: () =>void,
+interface Props {
+  title: string;
+  onClick: () => void;
 }
 
-const ColumnTitle: React.FC<TitleProps> = ({ title, onClick}) => {
-    
-    return <StyledTitle onClick={onClick}>{title}</StyledTitle>
-}
+export const ColumnTitle: React.FC<Props> = ({ title, onClick }) => {
+  return <Root onClick={onClick}>{title}</Root>;
+};
 
-export default ColumnTitle
+const Root = styled.h3`
+  color: ${COLORS.greyblue};
+  text-align: center;
+  margin-bottom: 0.7em;
+`;
